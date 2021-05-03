@@ -49,8 +49,8 @@ public class Arco {
      */
     @Override
     public boolean equals(Object Obj){
-        if(Obj.getClass().equals(this.getClass())) if (this.toString().equals( Obj.toString())) return true;
-        return false;
+        //return this.toString().equals( Obj.toString());
+        return this.hashCode()==Obj.hashCode();
     }
 
     /**
