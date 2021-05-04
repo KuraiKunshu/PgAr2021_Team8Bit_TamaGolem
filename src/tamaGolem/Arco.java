@@ -49,8 +49,10 @@ public class Arco {
      */
     @Override
     public boolean equals(Object Obj){
-        //return this.toString().equals( Obj.toString());
-        return this.hashCode()==Obj.hashCode();
+        //questo return se voglio confrontare che i 2 elementi siano uguali e che siano nello stesso ordine
+        return this.toString().equals( Obj.toString());
+        //questo return se voglio confrontare che i 2 elementi siano uguali apprescindere dall'ordine
+        //return this.hashCode()==Obj.hashCode();
     }
 
     /**

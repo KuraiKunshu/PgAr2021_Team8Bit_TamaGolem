@@ -1,10 +1,9 @@
 package tamaGolem;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Grafo {
-    private Map<Arco,Freccia> mappaDirezioni;
+    private Map<Arco,Integer> mappaDirezioni;
     private int numeroElementiAttivi;
     //numero di elementi che possono interagire insieme
     /**
@@ -16,30 +15,51 @@ public class Grafo {
         this.numeroElementiAttivi=numeroElementiAttivi;
     }
 
-    public Map<Arco, Freccia> getMappaDirezioni() {
+    public Map<Arco, Integer> getMappaDirezioni() {
         return mappaDirezioni;
     }
 
-    public void generaEquilibrio(){
-        //popolamento e inserimento valori
-        for(int i=0;i<numeroElementiAttivi;i++){
-            int numeroDirezioni=0;
-            int j;
-            for(j=0; j<numeroElementiAttivi;j++){
-                if(i!=j){
-                    mappaDirezioni.put(new Arco(new Elemento(i),new Elemento(j)),new Freccia());
-                    if(mappaDirezioni.get(new Arco(new Elemento(i),new Elemento(j))).getDirezione())numeroDirezioni++;
-                }
+    public void generaEquilibrio(int vitaGolem){
+        Random rand = new Random();
+        //calcolo quanti archi ho
+        int loop=calcoloNumeroArchi(numeroElementiAttivi);
+        //genero degli archi casualmente (dovrei calcolare quando ci sono n-1 archi di uguale direzione) e invertire i e j
+        Deque<Arco> archi=new ArrayDeque<>();
+        while (archi.size()<loop){
+            int i = rand.nextInt(numeroElementiAttivi);
+            int j = rand.nextInt(numeroElementiAttivi);
+            if(i==j)continue;
+            if(!(archi.contains(new Arco(new Elemento(i),new Elemento(j)))) && !(archi.contains(new Arco(new Elemento(j),new Elemento(i))))){
+                int contaElementoPartenza=0;
+                for(int x=0;x<numeroElementiAttivi;x++)if(x!=i&&archi.contains(new Arco(new Elemento(i), new Elemento(x))))contaElementoPartenza++;
+                if(contaElementoPartenza!=numeroElementiAttivi-2) archi.add(new Arco(new Elemento(i),new Elemento(j)));
+                else archi.add(new Arco(new Elemento(j),new Elemento(i)));
             }
-            if(numeroDirezioni>=this.numeroElementiAttivi-1)mappaDirezioni.put(new Arco(new Elemento(i),new Elemento(j)),new Freccia(false));
         }
+        //genero i danni possibili per ogni elemento
     }
 
-    public int[] suddividiDanni(int totaleDanniIn, int numeroDanniOut){
-        int[] danniOut=new int[numeroDanniOut];
-        //genera un numero casuale da 0 a il numero massimo - (numerodanniout) + 1
-        for (int i=0; i<numeroDanniOut; i++);
-        return null;
+    public Deque<Integer> suddividiDanni(Deque<Arco> archi, int maxDamage){
+        Deque<Integer> lista = new ArrayDeque<>();
+        Random rand=new Random();
+        int numeroDanniOut=0;
+        int numeroFrecciePositive=0;
+        /*for(int i=0;i<archi.size();i++){
+            for(int j=0;j<numeroElementiAttivi;j++){
+                if(archi.contains(new Arco(new Elemento(i),new Elemento(j))))numeroFrecciePositive++;
+            }
+            for(int j=0;j<numeroFrecciePositive;j++){
+                int danno= rand.nextInt(maxDamage)+1;
+                numeroDanniOut+=danno;
+                lista.add(danno);
+            }
+            for (int j=0; j<numeroElementiAttivi-numeroFrecciePositive; j++){
+                int danno=rand.nextInt(numeroDanniOut-numeroFrecciePositive);
+                numeroDanniOut-=numeroDanniOut;
+                lista.add(danno);
+            }
+        }*/
+        return lista;
     }
 
     /**
