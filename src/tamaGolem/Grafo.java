@@ -25,41 +25,30 @@ public class Grafo {
         int loop=calcoloNumeroArchi(numeroElementiAttivi);
         //genero degli archi casualmente (dovrei calcolare quando ci sono n-1 archi di uguale direzione) e invertire i e j
         Deque<Arco> archi=new ArrayDeque<>();
-        while (archi.size()<loop){
+        Elemento e1;
+        Elemento e2;
+        while (mappaDirezioni.size()<loop){
             int i = rand.nextInt(numeroElementiAttivi);
             int j = rand.nextInt(numeroElementiAttivi);
             if(i==j)continue;
-            if(!(archi.contains(new Arco(new Elemento(i),new Elemento(j)))) && !(archi.contains(new Arco(new Elemento(j),new Elemento(i))))){
+            e1=new Elemento(i);
+            e2=new Elemento(j);
+            if(!(mappaDirezioni.containsKey(new Arco(e1,e2))) && !(mappaDirezioni.containsKey(new Arco(e2,e1)))){
                 int contaElementoPartenza=0;
-                for(int x=0;x<numeroElementiAttivi;x++)if(x!=i&&archi.contains(new Arco(new Elemento(i), new Elemento(x))))contaElementoPartenza++;
-                if(contaElementoPartenza!=numeroElementiAttivi-2) archi.add(new Arco(new Elemento(i),new Elemento(j)));
-                else archi.add(new Arco(new Elemento(j),new Elemento(i)));
+                int contaElementoArrivo=0;
+                for(int x=0;x<numeroElementiAttivi;x++){
+                    if(x!=i&&mappaDirezioni.containsKey(new Arco(e1, new Elemento(x))))contaElementoPartenza++;
+                    if(x!=i&&mappaDirezioni.containsKey(new Arco(new Elemento(x), e1)))contaElementoArrivo++;
+                }
+                int value= rand.nextInt(vitaGolem)+1;
+                if(contaElementoPartenza==numeroElementiAttivi-2) mappaDirezioni.put(new Arco(e2,e1),null);
+                if(contaElementoArrivo==numeroElementiAttivi-2) mappaDirezioni.put(new Arco(e1,e2), value);
+                mappaDirezioni.put(new Arco(e1,e2), value);
             }
         }
-        //genero i danni possibili per ogni elemento
-    }
-
-    public Deque<Integer> suddividiDanni(Deque<Arco> archi, int maxDamage){
-        Deque<Integer> lista = new ArrayDeque<>();
-        Random rand=new Random();
-        int numeroDanniOut=0;
-        int numeroFrecciePositive=0;
-        /*for(int i=0;i<archi.size();i++){
-            for(int j=0;j<numeroElementiAttivi;j++){
-                if(archi.contains(new Arco(new Elemento(i),new Elemento(j))))numeroFrecciePositive++;
-            }
-            for(int j=0;j<numeroFrecciePositive;j++){
-                int danno= rand.nextInt(maxDamage)+1;
-                numeroDanniOut+=danno;
-                lista.add(danno);
-            }
-            for (int j=0; j<numeroElementiAttivi-numeroFrecciePositive; j++){
-                int danno=rand.nextInt(numeroDanniOut-numeroFrecciePositive);
-                numeroDanniOut-=numeroDanniOut;
-                lista.add(danno);
-            }
-        }*/
-        return lista;
+        //faccio un ciclo, per ogni elemento, che calcola il totale dei danni che un elemento infligge e a quanti elemmenti lo infligge
+        //poi, per esclusione, suddivido il valore del totale in parti pari al numero di "freccie" che dovrebbe subire e cambio questi valori in modo da
+        //avere "casualità" anche tra i valori che subiscono
     }
 
     /**
