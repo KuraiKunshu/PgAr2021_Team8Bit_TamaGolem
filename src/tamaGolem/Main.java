@@ -7,6 +7,29 @@ public class Main {
     public static void main(String[] args) {
         Map<Arco,Integer> mappa= new HashMap<>();
 
+        //Stampa matrice elementi
+        Grafo g = new Grafo();
+        int n = 7;
+        int[][] m= g.generaEquilibrio(n);
+        for (int i=0; i<n; i++){
+            for (int j=0; j<n; j++){
+                System.out.print(m[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        int contatore=0;
+        for (int i=0; i<n; i++){
+            for (int j=0; j<n; j++){
+                if (m[i][j] != 0) {
+                    contatore++;
+                    System.out.println(contatore + ". " + new Elemento(i).getNome() + " fa danno " + m[i][j] + " a " + new Elemento(j).getNome());
+                }
+            }
+        }
+        System.out.println(g.getMappaDirezioni().size());
+        System.out.println(g.getMappaDirezioni().get(new Arco(new Elemento(0),new Elemento(1))));
+        System.out.println(g.getMappaDirezioni().get(new Arco(new Elemento(1),new Elemento(0))));
+
         //Test costanti definite rispetto al valore di n numero di elementi
         /*int n = 6;
         int p = TamaGolem.getNumeroCaricatore(n);
@@ -19,14 +42,21 @@ public class Main {
         System.out.println("Numero totale pietre disponibili: "+s);
         System.out.println("Numero pietre per elemento: "+e);*/
 
-        /*
-        Arco a1 = new Arco(new Elemento("aq"),new Elemento("bq"));
+
+        /*Arco a1 = new Arco(new Elemento("aq"),new Elemento("bq"));
         Arco a2 = new Arco(new Elemento("aq"),new Elemento("bq"));
         mappa.put(a1,2);
         mappa.put(a2,4);
         System.out.println(a1.equals(a2));
-
         System.out.println(mappa.get(new Arco(new Elemento("aq"),new Elemento("bq"))));
+        System.out.println(mappa.size());*/
+
+        /*Arco a1 = new Arco(new Elemento(0),new Elemento(1));
+        Arco a2 = new Arco(new Elemento(1),new Elemento(0));
+        mappa.put(a1,0);
+        mappa.put(a2,4);
+        System.out.println(a1.equals(a2));
+        System.out.println(mappa.get(new Arco(new Elemento(0),new Elemento(1))));
         System.out.println(mappa.size());*/
     }
 }

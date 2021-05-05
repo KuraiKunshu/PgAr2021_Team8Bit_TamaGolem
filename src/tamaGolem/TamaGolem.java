@@ -1,10 +1,10 @@
 package tamaGolem;
 
-import java.util.ArrayList;
+import java.util.Deque;
 
 public class TamaGolem {
     private int hp;
-    ArrayList<Elemento> caricatore;
+    Deque<Elemento> caricatore;
 
     /**
      * Ritorna gli hp del TamaGolem
