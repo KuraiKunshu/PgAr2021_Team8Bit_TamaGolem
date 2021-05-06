@@ -32,6 +32,10 @@ public class TamaGolem {
     public static int getNumeroCaricatore(int n){
         return (int)Math.ceil((n+1.0)/3)+1;
     }
+    
+    public void setCaricatore(Deque<Elemento> caricatore) {
+    	this.caricatore= caricatore;
+    }
 
     /**
      * Se il TamaGolem ha almeno 1 hp ritorna true, altrimenti ritorna false

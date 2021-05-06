@@ -26,15 +26,33 @@ public class Scontro {
         return (int)Math.ceil((2.0 * g * p) / n) * n;
     }
 
-    public void riempiPietreDisponibili(){
-
+    public void riempiPietreDisponibili(int n){
+    	for(int i=0; i<Elemento.getNumeroElementi();i++) {
+    		for(int j=0; j<n/Elemento.getNumeroElementi(); j++) {
+    			Elemento elemento = new Elemento(i);
+    			pietreDisponibili.add(elemento);
+    		}
+    	}
     }
 
-    public void evocazione(){
+   
 
-    }
-
-    public int attacco(TamaGolem t1, TamaGolem t2){
-        return 0;
+    public void attacco(TamaGolem t1, TamaGolem t2){
+    	Elemento pietraGolem1 = t1.caricatore.getFirst();
+    	Elemento pietraGolem2 = t2.caricatore.getFirst();
+    	Grafo g = new Grafo();
+    	int danno = g.getDanni(pietraGolem1, pietraGolem2);
+    	if(danno<0) {
+    		int vita= t1.getHp()+danno;
+    		t1.setHp(vita);
+    	}
+    	if(danno>0) {
+    		int vita= t2.getHp()-danno;
+    		t2.setHp(vita);
+    	}
+    	if(danno==0) {
+    		
+    	}
+    	
     }
 }

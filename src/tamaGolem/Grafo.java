@@ -139,6 +139,18 @@ public class Grafo {
         }
         return true;
     }
+    
+    public int getDanni(Elemento primo, Elemento secondo) {
+    	if(primo.equals(secondo)) {
+    		return 0;
+    	}
+    	if(mappaDirezioni.get(new Arco(primo,secondo))!=0) {
+    		return mappaDirezioni.get(new Arco(primo,secondo)); 
+    	}
+    	else {
+    		return (-1)*mappaDirezioni.get(new Arco(secondo,primo)); 
+    	}
+    }
 
     /**
      * ritorna il fattoriale di n

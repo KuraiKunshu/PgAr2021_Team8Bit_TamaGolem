@@ -1,14 +1,15 @@
 package tamaGolem;
 
-import java.security.cert.TrustAnchor;
-import java.util.ArrayList;
+
+
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class Giocatore {
     private String nome;
-    private ArrayList<TamaGolem> golems;
+    private Deque<TamaGolem> golems;
 
-    public Giocatore(String nome, ArrayList<TamaGolem> golems) {
+    public Giocatore(String nome, Deque<TamaGolem> golems) {
         this.nome = nome;
         this.golems = golems;
     }
@@ -33,7 +34,7 @@ public class Giocatore {
      * ritorna la lista di golem
      * @return
      */
-    public ArrayList<TamaGolem> getGolems() {
+    public Deque<TamaGolem> getGolems() {
         return golems;
     }
 
@@ -41,7 +42,7 @@ public class Giocatore {
      * imposta l'intera lista dei golem
      * @param golems
      */
-    public void setGolems(ArrayList<TamaGolem> golems) {
+    public void setGolems(Deque<TamaGolem> golems) {
         this.golems = golems;
     }
 
@@ -57,11 +58,13 @@ public class Giocatore {
         return (int)Math.ceil((n-1.0)*(n-2)/(2*p));
     }
 
-    public void rimuoviGolem(int n){
-        this.getGolems().remove(n);
+    public void rimuoviGolem(){
+        this.getGolems().remove();
     }
 
-    public void scegliPietre(LinkedList<Elemento> pietreDisponibili){
-
+    public void caricaPietreScelte(LinkedList<Elemento> pietreScelte) {
+    	this.golems.getFirst().setCaricatore(pietreScelte);
     }
+    
+   
 }
