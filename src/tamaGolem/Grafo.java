@@ -21,35 +21,65 @@ public class Grafo {
 
     public void generaEquilibrio(int vitaGolem){
         Random rand = new Random();
+        Elemento attaccante;
+        Elemento subitore;
         //calcolo quanti archi ho
         int loop=calcoloNumeroArchi(numeroElementiAttivi);
-        //genero degli archi casualmente (dovrei calcolare quando ci sono n-1 archi di uguale direzione) e invertire i e j
-        Deque<Arco> archi=new ArrayDeque<>();
-        Elemento e1;
-        Elemento e2;
+        //genero degli archi in maniera casuale
+        //potrei sostituire il while con 2 for e dato un valore casuale controllato decido la direzione (cioè lo genero se e solo se non mi interessa che direzione prende l'arco)
         while (mappaDirezioni.size()<loop){
-            int i = rand.nextInt(numeroElementiAttivi);
-            int j = rand.nextInt(numeroElementiAttivi);
-            if(i==j)continue;
-            e1=new Elemento(i);
-            e2=new Elemento(j);
-            if(!(mappaDirezioni.containsKey(new Arco(e1,e2))) && !(mappaDirezioni.containsKey(new Arco(e2,e1)))){
-                int contaElementoPartenza=0;
-                int contaElementoArrivo=0;
-                for(int x=0;x<numeroElementiAttivi;x++){
-                    if(x!=i&&mappaDirezioni.containsKey(new Arco(e1, new Elemento(x))))contaElementoPartenza++;
-                    if(x!=i&&mappaDirezioni.containsKey(new Arco(new Elemento(x), e1)))contaElementoArrivo++;
+            int indiceElementoAttaccante=rand.nextInt(numeroElementiAttivi);
+            int indiceElementoSubitore=rand.nextInt(numeroElementiAttivi);
+            if(indiceElementoAttaccante==indiceElementoSubitore)continue;
+            attaccante = new Elemento(indiceElementoAttaccante);
+            subitore = new Elemento(indiceElementoSubitore);
+            if(!(mappaDirezioni.containsKey(new Arco(attaccante,subitore)))&&!(mappaDirezioni.containsKey(new Arco(subitore,attaccante)))){
+                int numeroAttacchiAttaccante=0;
+                int numeroAttacchiSubitore=0;
+                int numeroSubitoSubitore=0;
+                int numeroSubitoAttaccante=0;
+                for(Map.Entry<Arco,Integer> entry : mappaDirezioni.entrySet()){
+                    if(entry.getKey().getElementoDiArrivo().equals(attaccante))numeroSubitoAttaccante++;
+                    if(entry.getKey().getElementoDiArrivo().equals(subitore))numeroSubitoSubitore++;
+                    if(entry.getKey().getElementoDiPartenza().equals(subitore))numeroAttacchiSubitore++;
+                    if(entry.getKey().getElementoDiPartenza().equals(attaccante))numeroAttacchiAttaccante++;
                 }
-                int value= rand.nextInt(vitaGolem)+1;
-                if(contaElementoPartenza==numeroElementiAttivi-2) mappaDirezioni.put(new Arco(e2,e1),null);
-                if(contaElementoArrivo==numeroElementiAttivi-2) mappaDirezioni.put(new Arco(e1,e2), value);
-                mappaDirezioni.put(new Arco(e1,e2), value);
+                if((numeroAttacchiAttaccante<numeroElementiAttivi-2)&&(numeroSubitoSubitore<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(attaccante,subitore), null);
+                else if((numeroAttacchiSubitore<numeroElementiAttivi-2)&&(numeroSubitoAttaccante<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(subitore,attaccante), null);
             }
         }
-        //faccio un ciclo, per ogni elemento, che calcola il totale dei danni che un elemento infligge e a quanti elemmenti lo infligge
-        //poi, per esclusione, suddivido il valore del totale in parti pari al numero di "freccie" che dovrebbe subire e cambio questi valori in modo da
-        //avere "casualità" anche tra i valori che subiscono
+        Elemento elemento;
+        for(int i=0;i<numeroElementiAttivi-1;i++){
+            elemento = new Elemento(i);
+            int totaleDanniAttacco=0;
+            Deque<Elemento> elementiAttacanti = new ArrayDeque<>();
+            Deque<Elemento> elementiSubitori = new ArrayDeque<>();
+            for(Map.Entry<Arco,Integer> entry : mappaDirezioni.entrySet()){
+                Arco attuale=entry.getKey();
+                if(attuale.getElementoDiPartenza().equals(elemento)){
+                    elementiSubitori.addFirst(attuale.getElementoDiArrivo());
+                    if(entry.getValue()==null){
+                        int value = rand.nextInt(vitaGolem)+1;
+                        mappaDirezioni.put(entry.getKey(),value);
+                        totaleDanniAttacco+=value;
+                    }else totaleDanniAttacco+=entry.getValue();
+                }
+                if(attuale.getElementoDiArrivo().equals(elemento))
+                    elementiAttacanti.addFirst(attuale.getElementoDiPartenza());
+            }
+            /*for(Elemento entry : elementiAttacanti){
+                if(elementiAttacanti.size()>1){
+                    int value = rand.nextInt(totaleDanniAttacco-(elementiAttacanti.size()-1))+1;
+                    mappaDirezioni.put(new Arco(entry,elemento),value);
+                    totaleDanniAttacco-=value;
+                }else{
+                    mappaDirezioni.put(new Arco(entry,elemento),totaleDanniAttacco);
+                }
+                elementiAttacanti.removeFirst();
+            }*/
+        }
     }
+
 
     /**
      * ritorna il fattoriale di n

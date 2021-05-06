@@ -1,5 +1,7 @@
 package tamaGolem;
 
+import javax.print.attribute.standard.JobKOctets;
+
 public class Elemento {
     private String nome;
     private static final String[] ELEMENTI={"Fuoco","Acqua","Eletro","Terra","Luce","Morte","Natura","Lotta","Veleno","Unknown"};
@@ -34,5 +36,15 @@ public class Elemento {
 
     public static int getNumeroElementi(){
         return ELEMENTI.length;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        return this.toString().equals(obj.toString());
+    }
+
+    @Override
+    public String toString(){
+        return this.getNome();
     }
 }
