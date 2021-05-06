@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
+	
+	static int NumeroElementi=7;
+	
     public static void main(String[] args) {
         Map<Arco,Integer> mappa= new HashMap<>();
+        
+        
 
         //Stampa matrice elementi
-        Grafo g = new Grafo();
+       /* Grafo g = new Grafo();
         int n = 7;
         int[][] m= g.generaEquilibrio(n);
         for (int i=0; i<n; i++){

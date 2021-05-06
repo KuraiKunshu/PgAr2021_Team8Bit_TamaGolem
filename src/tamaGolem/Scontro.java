@@ -1,12 +1,15 @@
 package tamaGolem;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.LinkedList;
 
 public class Scontro {
     private LinkedList<Elemento> pietreDisponibili;
     private Giocatore g1;
     private Giocatore g2;
+    private Grafo mondo;
 
     public LinkedList<Elemento> getPietreDisponibili() {
         return pietreDisponibili;
@@ -15,6 +18,10 @@ public class Scontro {
     public void setPietreDisponibili(LinkedList<Elemento> pietreDisponibili) {
         this.pietreDisponibili = pietreDisponibili;
     }
+    
+	
+			
+    
 
     /**
      * Ritorna quante pietre ci sono a inizio partita in pietreDisponibili dato il numero di elementi,
@@ -34,24 +41,29 @@ public class Scontro {
     		}
     	}
     }
+    
+    public void evocazioneIniziale(int n) {
+    	mondo.generaEquilibrio(n);
+    	g1.scegliPietre(pietreDisponibili);
+    	g2.scegliPietre(pietreDisponibili);
+    }
+    
+    
 
    
 
-    public void attacco(TamaGolem t1, TamaGolem t2){
-    	Elemento pietraGolem1 = t1.caricatore.getFirst();
-    	Elemento pietraGolem2 = t2.caricatore.getFirst();
-    	Grafo g = new Grafo();
-    	int danno = g.getDanni(pietraGolem1, pietraGolem2);
+    public void attacco(){
+    	
+    	Elemento pietraGolem1 = g1.getGolems().getFirst().getCaricatore().getFirst();
+    	Elemento pietraGolem2 = g2.getGolems().getFirst().getCaricatore().getFirst();
+    	int danno = mondo.getDanni(pietraGolem1, pietraGolem2);
     	if(danno<0) {
-    		int vita= t1.getHp()+danno;
-    		t1.setHp(vita);
+    		int vita= g1.getGolems().getFirst().getHp()+danno;
+    		g1.getGolems().getFirst().setHp(vita);
     	}
     	if(danno>0) {
-    		int vita= t2.getHp()-danno;
-    		t2.setHp(vita);
-    	}
-    	if(danno==0) {
-    		
+    		int vita=g2.getGolems().getFirst().getHp()-danno;
+    		g2.getGolems().getFirst().setHp(vita);
     	}
     	
     }

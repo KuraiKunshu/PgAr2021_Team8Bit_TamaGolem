@@ -2,6 +2,7 @@ package tamaGolem;
 
 
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -61,9 +62,16 @@ public class Giocatore {
     public void rimuoviGolem(){
         this.getGolems().remove();
     }
-
-    public void caricaPietreScelte(LinkedList<Elemento> pietreScelte) {
-    	this.golems.getFirst().setCaricatore(pietreScelte);
+    
+    public void scegliPietre(LinkedList<Elemento> pietreDisponibili) {
+		int CapienzaCaricatore;
+		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.NumeroElementi);
+		
+		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
+			Interfaccia.stampaPietreDisponibili(pietreDisponibili);
+			//Stringa di input utente
+			this.golems.getFirst().setCaricatore(new Elemento(0));  //indice elemento da prendere dall'utente
+		}
     }
     
    

@@ -4,9 +4,18 @@ import java.util.Deque;
 
 public class TamaGolem {
     private int hp;
-    Deque<Elemento> caricatore;
+    private int NumeroCaricatore;
+    private Deque<Elemento> caricatore;
 
-    /**
+    public Deque<Elemento> getCaricatore() {
+		return caricatore;
+	}
+
+	public void setCaricatore(Deque<Elemento> caricatore) {
+		this.caricatore = caricatore;
+	}
+
+	/**
      * Ritorna gli hp del TamaGolem
      * @return
      */
@@ -33,8 +42,8 @@ public class TamaGolem {
         return (int)Math.ceil((n+1.0)/3)+1;
     }
     
-    public void setCaricatore(Deque<Elemento> caricatore) {
-    	this.caricatore= caricatore;
+    public void setCaricatore(Elemento pietra) {
+    	this.caricatore.addFirst(pietra);
     }
 
     /**
