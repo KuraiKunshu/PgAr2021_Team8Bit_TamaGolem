@@ -1,16 +1,15 @@
 package tamaGolem;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println(15/4);
         int numeroElementiAttivi=4;
         Grafo g = new Grafo(numeroElementiAttivi);
         System.out.println(g.calcoloNumeroArchi(numeroElementiAttivi));
-        Random rand = new Random();
-        g.generaEquilibrio(10);
+
+        g.generaEquilibrio(15);
         Map<Arco,Integer> map= g.getMappaDirezioni();
         for (Map.Entry<Arco,Integer> entry : map.entrySet()) {
             System.out.println(entry.getKey()+" : "+entry.getValue());
