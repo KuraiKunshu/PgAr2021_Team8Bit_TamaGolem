@@ -2,6 +2,8 @@ package tamaGolem;
 
 
 
+import it.unibs.fp.mylib.InputDati;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -69,8 +71,9 @@ public class Giocatore {
 		
 		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
 			Interfaccia.stampaPietreDisponibili(pietreDisponibili);
-			//Stringa di input utente
-			this.golems.getFirst().setCaricatore(new Elemento(0));  //indice elemento da prendere dall'utente
+            int n = InputDati.leggiIntero("Inserisci l'indice dell'elemento che desideri:", 0, pietreDisponibili.size());
+			this.golems.getFirst().setCaricatore(new Elemento(n));
+			pietreDisponibili.remove(new Elemento(n));
 		}
     }
     

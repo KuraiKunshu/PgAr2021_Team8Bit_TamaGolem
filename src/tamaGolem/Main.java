@@ -5,22 +5,40 @@ import java.util.Map;
 
 public class Main {
 	
-	static int NumeroElementi=7;
+	static int NumeroElementi;
+	static int VitaGolem;
 	
     public static void main(String[] args) {
         Map<Arco,Integer> mappa= new HashMap<>();
-/*
+        int nuovaPartita;
+        nuovaPartita = Interfaccia.nuovaPartita();
+        while(nuovaPartita==0){
+            Interfaccia.sceltaDifficolta();
+            Scontro s = new Scontro();
+            Interfaccia.inserimentoNomi(s);
+            s.riempiPietreDisponibili(NumeroElementi);
+            s.evocazioneIniziale(NumeroElementi);
+
+
+            nuovaPartita = Interfaccia.nuovaPartita();
+        }
+        System.out.println("Programma TamaGolem terminato.");
+
+
+
+
+
         //Stampa matrice elementi
-        Grafo g = new Grafo();
-        int n = 4;
+        /*Grafo g = new Grafo();
+        int n = 5;
         int[][] m= g.generaEquilibrio(n);
         for (int i=0; i<n; i++){
             for (int j=0; j<n; j++){
-                System.out.print(m[i][j] + " ");
+                System.out.printf("%2d ", m[i][j]);
             }
             System.out.println("");
-        }
-        int contatore=0;
+        }*/
+        /*int contatore=0;
         for (int i=0; i<n; i++){
             for (int j=0; j<n; j++){
                 if (m[i][j] != 0) {
@@ -29,9 +47,9 @@ public class Main {
                 }
             }
         }
-        System.out.println(g.getMappaDirezioni().size());
-        System.out.println(g.getMappaDirezioni().get(new Arco(new Elemento(0),new Elemento(1))));
-        System.out.println(g.getMappaDirezioni().get(new Arco(new Elemento(1),new Elemento(0))));
+        //System.out.println(g.getMappaDirezioni().size());
+        //System.out.println(g.getMappaDirezioni().get(new Arco(new Elemento(0),new Elemento(1))));
+        //System.out.println(g.getMappaDirezioni().get(new Arco(new Elemento(1),new Elemento(0))));
 
         //Test costanti definite rispetto al valore di n numero di elementi
         /*int n = 6;

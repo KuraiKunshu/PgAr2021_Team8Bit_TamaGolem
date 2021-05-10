@@ -1,5 +1,6 @@
 package tamaGolem;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class TamaGolem {
@@ -57,5 +58,15 @@ public class TamaGolem {
     }
     public TamaGolem(int hp){
         this.setHp(hp);
+        this.caricatore = new ArrayDeque<Elemento>();
+    }
+    /**
+     * sposta il primo elemento del caricatore e lo mette in coda
+     * @return ritorna l'elemento spostato
+     */
+    public Elemento ruotaCaricatore(){
+        Elemento e = caricatore.removeFirst();
+        caricatore.addLast(e);
+        return e;
     }
 }

@@ -40,4 +40,13 @@ public class Elemento {
     public static int getNumeroElementi(){
         return ELEMENTI.length;
     }
+    @Override
+    public boolean equals(Object obj){
+        return this.toString().equals(obj.toString());
+    }
+
+    @Override
+    public String toString(){
+        return this.getNome();
+    }
 }
