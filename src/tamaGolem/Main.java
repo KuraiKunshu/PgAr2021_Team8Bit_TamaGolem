@@ -18,8 +18,20 @@ public class Main {
             Interfaccia.inserimentoNomi(s);
             s.riempiPietreDisponibili(NumeroElementi);
             s.evocazioneIniziale(NumeroElementi);
-
-
+            while (!(s.getG1().getGolems().isEmpty() || s.getG2().getGolems().isEmpty())){
+                s.attacco();
+                if(!(s.getG1().getGolems().getFirst().isAlive())){
+                    System.out.println("Il golem di " + s.getG1().getNome() + " è morto");
+                    s.getG1().rimuoviGolem();
+                    s.getG1().scegliPietre(s.getPietreDisponibili());
+                }
+                if(!(s.getG2().getGolems().getFirst().isAlive())){
+                    System.out.println("Il golem di " + s.getG2().getNome() + " è morto");
+                    s.getG2().rimuoviGolem();
+                    s.getG2().scegliPietre(s.getPietreDisponibili());
+                }
+            }
+            //Dichiara vincitore
             nuovaPartita = Interfaccia.nuovaPartita();
         }
         System.out.println("Programma TamaGolem terminato.");

@@ -32,22 +32,19 @@ public class Interfaccia {
 		System.out.println(FACILE);
 		System.out.println(MEDIO);
 		System.out.println(DIFFICILE);
-		int valoreScelto = 0;
-		int VitaGolem;
-		int n = InputDati.leggiIntero("Scegli:", DIFFICOLTA0, DIFFICOLTA2);
+		int valoreScelto = InputDati.leggiIntero("Scegli:", DIFFICOLTA0, DIFFICOLTA2);
 		if (valoreScelto==DIFFICOLTA0) {
-			n = ELEMENTI_FACILE;
-			VitaGolem = VITA_GOLEM_FACILE;
+			Main.NumeroElementi = ELEMENTI_FACILE;
+			Main.VitaGolem = VITA_GOLEM_FACILE;
 		}
 		else if (valoreScelto==DIFFICOLTA1) {
-			n = ELEMENTI_MEDIO;
-			VitaGolem = VITA_GOLEM_MEDIO;
+			Main.NumeroElementi = ELEMENTI_MEDIO;
+			Main.VitaGolem = VITA_GOLEM_MEDIO;
 		}
 		else {
-			n = ELEMENTI_DIFFICILE;
-			VitaGolem = VITA_GOLEM_DIFFICILE;
+			Main.NumeroElementi = ELEMENTI_DIFFICILE;
+			Main.VitaGolem = VITA_GOLEM_DIFFICILE;
 		}
-		Main.NumeroElementi = n;
 	}
 
 	public static Deque<TamaGolem> CreaGolems (){
@@ -62,16 +59,17 @@ public class Interfaccia {
 	}
 
 	public static void inserimentoNomi(Scontro s){
-		Deque<TamaGolem> golems = CreaGolems();
+		Deque<TamaGolem> golems1 = CreaGolems();
+		Deque<TamaGolem> golems2 = CreaGolems();
 		String nome1, nome2;
 		nome1 = InputDati.leggiStringaNonVuota("Giocatore 1. Inserisci il tuo nome:");
-		Giocatore g1 = new Giocatore(nome1, golems);
+		Giocatore g1 = new Giocatore(nome1, golems1);
 		s.setG1(g1);
 		do{
 			nome2 = InputDati.leggiStringaNonVuota("Giocatore 2. Inserisci il tuo nome:");
 			if (nome1.equalsIgnoreCase(nome2)) System.out.println("Non puoi inserire lo stesso nome per entrambi i giocatori.");
 		}while (nome1.equalsIgnoreCase(nome2));
-		Giocatore g2 = new Giocatore(nome2, golems);
+		Giocatore g2 = new Giocatore(nome2, golems2);
 		s.setG2(g2);
 	}
 	

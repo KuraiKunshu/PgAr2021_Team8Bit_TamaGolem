@@ -62,18 +62,23 @@ public class Giocatore {
     }
 
     public void rimuoviGolem(){
-        this.getGolems().remove();
+        this.getGolems().removeFirst();
     }
     
     public void scegliPietre(LinkedList<Elemento> pietreDisponibili) {
 		int CapienzaCaricatore;
 		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.NumeroElementi);
-		
+		if(this.golems.isEmpty()){
+            System.out.println(this.nome + ". Non hai più golem.");
+        }else
 		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
 			Interfaccia.stampaPietreDisponibili(pietreDisponibili);
-            int n = InputDati.leggiIntero("Inserisci l'indice dell'elemento che desideri:", 0, pietreDisponibili.size());
-			this.golems.getFirst().setCaricatore(new Elemento(n));
-			pietreDisponibili.remove(new Elemento(n));
+            int n = InputDati.leggiIntero(this.getNome() + ". Inserisci l'indice dell'elemento che desideri:", 0, pietreDisponibili.size());
+            if (pietreDisponibili.contains(new Elemento(n))){
+                this.golems.getFirst().setCaricatore(new Elemento(n));
+                pietreDisponibili.remove(new Elemento(n));
+            }
+			else System.out.println("La pietra scelta non è disponibile.");
 		}
     }
     

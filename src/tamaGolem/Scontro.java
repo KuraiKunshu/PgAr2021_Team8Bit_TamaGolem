@@ -73,7 +73,13 @@ public class Scontro {
     public void evocazioneIniziale(int n) {
     	mondo.generaEquilibrio(n);
     	g1.scegliPietre(pietreDisponibili);
-    	g2.scegliPietre(pietreDisponibili);
+        do{
+            if (!g2.getGolems().getFirst().getCaricatore().isEmpty()){
+                System.out.println("Cambia l'ultima pietra.");
+                this.pietreDisponibili.add(g2.getGolems().getFirst().getCaricatore().removeFirst());
+            }
+            g2.scegliPietre(pietreDisponibili);
+        }while (g1.getGolems().getFirst().getCaricatore().contains(g2.getGolems().getFirst().getCaricatore()));
     }
 
     public void attacco(){
@@ -81,12 +87,14 @@ public class Scontro {
         Elemento pietraGolem2 = g2.getGolems().getFirst().ruotaCaricatore();
         int danno = mondo.getDanni(pietraGolem1, pietraGolem2);
         if(danno<0) {
-            int vita= g1.getGolems().getFirst().getHp()+danno;
-            g1.getGolems().getFirst().setHp(vita);
+            int vita= g2.getGolems().getFirst().getHp()+danno;
+            g2.getGolems().getFirst().setHp(vita);
+            System.out.println("Il TamaGolem di " + g1.getNome() + " infligge " + (-1)*danno + " danni.");
         }
         if(danno>0) {
-            int vita=g2.getGolems().getFirst().getHp()-danno;
-            g2.getGolems().getFirst().setHp(vita);
+            int vita=g1.getGolems().getFirst().getHp()-danno;
+            g1.getGolems().getFirst().setHp(vita);
+            System.out.println("Il TamaGolem di " + g2.getNome() + " infligge " + danno + " danni.");
         }
 
     }

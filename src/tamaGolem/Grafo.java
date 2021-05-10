@@ -144,7 +144,7 @@ public class Grafo {
     	if(primo.equals(secondo)) {
     		return 0;
     	}
-    	if(mappaDirezioni.get(new Arco(primo,secondo))!=0) {
+    	if(mappaDirezioni.get(new Arco(primo,secondo))!=null) {
     		return mappaDirezioni.get(new Arco(primo,secondo)); 
     	}
     	else {
