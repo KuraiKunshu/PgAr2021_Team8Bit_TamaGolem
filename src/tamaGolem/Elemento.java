@@ -37,14 +37,28 @@ public class Elemento {
         return ELEMENTI;
     }
 
+    /**
+     * ritorna il numero massimo di elementi dell'array.
+     * @return
+     */
     public static int getNumeroElementi(){
         return ELEMENTI.length;
     }
+
+    /**
+     * confronta un oggetto java con un oggetto Elemento
+     * @param obj oggetto java
+     * @return ritorna true se i 2 oggetti toString coincidono
+     */
     @Override
     public boolean equals(Object obj){
         return this.toString().equals(obj.toString());
     }
 
+    /**
+     * ritorna in formato String la classe
+     * @return ritorna il paramentro nome di elemento
+     */
     @Override
     public String toString(){
         return this.getNome();

@@ -5,8 +5,12 @@ import java.util.Deque;
 
 public class TamaGolem {
     private int hp;
-    private int NumeroCaricatore;
     private Deque<Elemento> caricatore;
+
+    public TamaGolem(int hp){
+        this.setHp(hp);
+        this.caricatore = new ArrayDeque<Elemento>();
+    }
 
     public Deque<Elemento> getCaricatore() {
 		return caricatore;
@@ -56,10 +60,7 @@ public class TamaGolem {
             return false;
         else return true;
     }
-    public TamaGolem(int hp){
-        this.setHp(hp);
-        this.caricatore = new ArrayDeque<Elemento>();
-    }
+
     /**
      * sposta il primo elemento del caricatore e lo mette in coda
      * @return ritorna l'elemento spostato

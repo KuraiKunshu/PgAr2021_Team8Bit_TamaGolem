@@ -1,7 +1,5 @@
 package tamaGolem;
 
-
-
 import it.unibs.fp.mylib.InputDati;
 
 import java.util.ArrayDeque;
@@ -12,9 +10,10 @@ public class Giocatore {
     private String nome;
     private Deque<TamaGolem> golems;
 
-    public Giocatore(String nome, Deque<TamaGolem> golems) {
+    public Giocatore(String nome, int numeroElementi) {
         this.nome = nome;
-        this.golems = golems;
+        this.golems = new ArrayDeque<>();
+        CreaGolems(numeroElementi);
     }
 
     /**
@@ -61,18 +60,25 @@ public class Giocatore {
         return (int)Math.ceil((n-1.0)*(n-2)/(2*p));
     }
 
+    public void CreaGolems (int nGolem){
+        for (int i = 0; i<nGolem; i++){
+            TamaGolem t = new TamaGolem(Main.getVitaGolem());
+            this.golems.add(t);
+        }
+    }
+
     public void rimuoviGolem(){
         this.getGolems().removeFirst();
     }
     
     public void scegliPietre(LinkedList<Elemento> pietreDisponibili) {
 		int CapienzaCaricatore;
-		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.NumeroElementi);
+		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
 		if(this.golems.isEmpty()){
-            System.out.println(this.nome + ". Non hai più golem.");
+            System.out.println(this.nome + ", ha esaurito i suoi golem.");
         }else
 		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
-			Interfaccia.stampaPietreDisponibili(pietreDisponibili);
+			Interazione.stampaPietreDisponibili(pietreDisponibili);
             int n = InputDati.leggiIntero(this.getNome() + ". Inserisci l'indice dell'elemento che desideri:", 0, pietreDisponibili.size());
             if (pietreDisponibili.contains(new Elemento(n))){
                 this.golems.getFirst().setCaricatore(new Elemento(n));

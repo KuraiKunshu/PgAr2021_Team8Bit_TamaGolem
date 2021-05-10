@@ -8,6 +8,11 @@ public class Scontro {
     private Giocatore g2;
     private Grafo mondo;
 
+    public Scontro (){
+        this.pietreDisponibili = new LinkedList<Elemento>();
+        this.mondo = new Grafo();
+    }
+
     public Giocatore getG1() {
         return g1;
     }
@@ -39,12 +44,6 @@ public class Scontro {
     public void setPietreDisponibili(LinkedList<Elemento> pietreDisponibili) {
         this.pietreDisponibili = pietreDisponibili;
     }
-
-    public Scontro (){
-        this.pietreDisponibili = new LinkedList<Elemento>();
-        this.mondo = new Grafo();
-    }
-
 
     /**
      * Ritorna quante pietre ci sono a inizio partita in pietreDisponibili dato il numero di elementi,

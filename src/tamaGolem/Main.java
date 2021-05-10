@@ -5,17 +5,40 @@ import java.util.Map;
 
 public class Main {
 	
-	static int NumeroElementi;
-	static int VitaGolem;
-	
+	private static int NumeroElementi;
+	private static int VitaGolem;
+
+
+    public static int getNumeroElementi() {
+        return NumeroElementi;
+    }
+
+    public static void setNumeroElementi(int numeroElementi) {
+        NumeroElementi = numeroElementi;
+    }
+
+    public static int getVitaGolem() {
+        return VitaGolem;
+    }
+
+    public static void setVitaGolem(int vitaGolem) {
+        VitaGolem = vitaGolem;
+    }
+
+    public static void pausa(){
+        try {
+            Thread.sleep(750);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         Map<Arco,Integer> mappa= new HashMap<>();
-        int nuovaPartita;
-        nuovaPartita = Interfaccia.nuovaPartita();
-        while(nuovaPartita==0){
-            Interfaccia.sceltaDifficolta();
+        while(Interazione.nuovaPartita()){
+            Interazione.sceltaDifficolta();
             Scontro s = new Scontro();
-            Interfaccia.inserimentoNomi(s);
+            Interazione.inserimentoNomi(s);
             s.riempiPietreDisponibili(NumeroElementi);
             s.evocazioneIniziale(NumeroElementi);
             while (!(s.getG1().getGolems().isEmpty() || s.getG2().getGolems().isEmpty())){
@@ -30,15 +53,13 @@ public class Main {
                     s.getG2().rimuoviGolem();
                     s.getG2().scegliPietre(s.getPietreDisponibili());
                 }
+                Main.pausa();
             }
             //Dichiara vincitore
-            nuovaPartita = Interfaccia.nuovaPartita();
+            //stampa dell'equilibrio, metodo da fare in grafo?
+            //la richiesta della nuova partita viene fatta dentro alla condizione while
         }
-        System.out.println("Programma TamaGolem terminato.");
-
-
-
-
+        System.out.println("Programma TamaGolem terminato. autodistruzione in corso...");
 
         //Stampa matrice elementi
         /*Grafo g = new Grafo();

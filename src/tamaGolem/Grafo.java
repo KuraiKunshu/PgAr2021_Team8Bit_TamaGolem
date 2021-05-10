@@ -11,8 +11,13 @@ public class Grafo {
      * numero di elementi che possono interagire insieme
      */
     private final int NUMERO_COMBINAZIONE=2;
+
+    /**
+     * costruttore della classe Grafo
+     */
     public Grafo() {
         this.mappaDirezioni = new HashMap<>();
+        this.mappaDirezioni.put(null,0);
     }
 
     public Map<Arco, Integer> getMappaDirezioni() {
@@ -139,7 +144,7 @@ public class Grafo {
         }
         return true;
     }
-    
+
     public int getDanni(Elemento primo, Elemento secondo) {
     	if(primo.equals(secondo)) {
     		return 0;
@@ -152,18 +157,20 @@ public class Grafo {
     	}
     }
 
+    /*
     /**
      * ritorna il fattoriale di n
      * @param n
      * @return
      */
+    /*
     public int fattoriale(int n){
         for(int i=n-1;i>0;i--){
             n*=i;
         }
         return n;
-    }
-
+    }*/
+    /*
     /**
      * data la formula della combinazione senza ripetizione, ritorna il risultato.
      * C(n,k) = n!/(k!*(n-k)!)
@@ -171,8 +178,9 @@ public class Grafo {
      * @param n
      * @return
      */
+    /*
     public int calcoloNumeroArchi(int n){
         return (fattoriale(n))/(fattoriale(NUMERO_COMBINAZIONE)*fattoriale(n-NUMERO_COMBINAZIONE));
-    }
+    }*/
 
 }

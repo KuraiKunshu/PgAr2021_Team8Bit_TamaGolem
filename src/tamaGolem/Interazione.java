@@ -2,12 +2,10 @@ package tamaGolem;
 
 import it.unibs.fp.mylib.InputDati;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.LinkedList;
 
-public class Interfaccia {
-
+public class Interazione {
+	private static final String NUOVA_PARTITA="Vuoi iniziare una nuova partita di TamaGolem?\n";
 	private static final String SCEGLI_DIFFICOLTA = "Scegli la difficoltà:";
 	private static final int ELEMENTI_FACILE = 5;
 	private static final int ELEMENTI_MEDIO = 7;
@@ -23,8 +21,8 @@ public class Interfaccia {
 	private static final String DIFFICILE = DIFFICOLTA2 + ". Difficile (" + ELEMENTI_DIFFICILE + " elementi)";
 
 
-	public static int nuovaPartita(){
-		return InputDati.leggiIntero("Vuoi iniziare una nuova partita di TamaGolem?\n0. Si\n1. No", 0,1);
+	public static boolean nuovaPartita(){
+		return InputDati.yesOrNo(NUOVA_PARTITA);
 	}
 
 	public static void sceltaDifficolta(){
@@ -34,55 +32,46 @@ public class Interfaccia {
 		System.out.println(DIFFICILE);
 		int valoreScelto = InputDati.leggiIntero("Scegli:", DIFFICOLTA0, DIFFICOLTA2);
 		if (valoreScelto==DIFFICOLTA0) {
-			Main.NumeroElementi = ELEMENTI_FACILE;
-			Main.VitaGolem = VITA_GOLEM_FACILE;
+			Main.setNumeroElementi(ELEMENTI_FACILE);
+			Main.setVitaGolem(VITA_GOLEM_FACILE);
 		}
 		else if (valoreScelto==DIFFICOLTA1) {
-			Main.NumeroElementi = ELEMENTI_MEDIO;
-			Main.VitaGolem = VITA_GOLEM_MEDIO;
+			Main.setNumeroElementi(ELEMENTI_MEDIO);
+			Main.setVitaGolem(VITA_GOLEM_MEDIO);
 		}
 		else {
-			Main.NumeroElementi = ELEMENTI_DIFFICILE;
-			Main.VitaGolem = VITA_GOLEM_DIFFICILE;
+			Main.setNumeroElementi(ELEMENTI_DIFFICILE);
+			Main.setVitaGolem(VITA_GOLEM_DIFFICILE);
 		}
 	}
 
-	public static Deque<TamaGolem> CreaGolems (){
-		int n = Main.NumeroElementi;
-		int golemPerGiocatore = Giocatore.getNumeroGolem(n, TamaGolem.getNumeroCaricatore(n));
-		Deque<TamaGolem> golems = new ArrayDeque<>();
-		for (int i = 0; i<golemPerGiocatore; i++){
-			TamaGolem t = new TamaGolem(Main.VitaGolem);
-			golems.add(t);
-		}
-		return golems;
-	}
+
 
 	public static void inserimentoNomi(Scontro s){
-		Deque<TamaGolem> golems1 = CreaGolems();
-		Deque<TamaGolem> golems2 = CreaGolems();
+		int n = Main.getNumeroElementi();
+		int golemPerGiocatore = Giocatore.getNumeroGolem(n, TamaGolem.getNumeroCaricatore(n));
 		String nome1, nome2;
+
 		nome1 = InputDati.leggiStringaNonVuota("Giocatore 1. Inserisci il tuo nome:");
-		Giocatore g1 = new Giocatore(nome1, golems1);
+		Giocatore g1 = new Giocatore(nome1, golemPerGiocatore);
 		s.setG1(g1);
 		do{
 			nome2 = InputDati.leggiStringaNonVuota("Giocatore 2. Inserisci il tuo nome:");
 			if (nome1.equalsIgnoreCase(nome2)) System.out.println("Non puoi inserire lo stesso nome per entrambi i giocatori.");
 		}while (nome1.equalsIgnoreCase(nome2));
-		Giocatore g2 = new Giocatore(nome2, golems2);
+		Giocatore g2 = new Giocatore(nome2, golemPerGiocatore);
 		s.setG2(g2);
 	}
 	
 	public static void stampaPietreDisponibili(LinkedList<Elemento> pietre) {
 		System.out.println("Scegli tra le pietre disponibili digitando l'indice numerico:");
-		for(int i=0; i < Main.NumeroElementi; i++) {
+		for(int i=0; i < Main.getNumeroElementi(); i++) {
 			int numPietreUguali=0;
-			for(int j=0; j<pietre.size(); j++) {
-				if(pietre.get(j).getNome().equals(new Elemento(i).getNome())) {
-					numPietreUguali++;
-				}
+			Elemento elemento = new Elemento(i);
+			for(Elemento e : pietre) {
+				if(e.equals(elemento)) numPietreUguali++;
 			}
-			System.out.println(i + "-" +(new Elemento(i)).getNome() + "("+ numPietreUguali +")");
+			System.out.println(i + "-" + elemento.getNome() + "("+ numPietreUguali +")");
 		}
 	}
 }
