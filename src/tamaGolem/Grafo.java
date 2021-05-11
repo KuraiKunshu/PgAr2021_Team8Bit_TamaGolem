@@ -44,68 +44,56 @@ public class Grafo {
                     if(entry.getKey().getElementoDiPartenza().equals(subitore))numeroAttacchiSubitore++;
                     if(entry.getKey().getElementoDiPartenza().equals(attaccante))numeroAttacchiAttaccante++;
                 }
-                if((numeroAttacchiAttaccante<numeroElementiAttivi-2)&&(numeroSubitoSubitore<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(attaccante,subitore), null);
-                else if((numeroAttacchiSubitore<numeroElementiAttivi-2)&&(numeroSubitoAttaccante<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(subitore,attaccante), null);
+                if((numeroAttacchiAttaccante<numeroElementiAttivi-2)&&(numeroSubitoSubitore<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(attaccante,subitore), 0);
+                else if((numeroAttacchiSubitore<numeroElementiAttivi-2)&&(numeroSubitoAttaccante<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(subitore,attaccante), 0);
             }
         }
         Elemento elemento;
-        //while(!isEquilibrato()){
+        while(!isEquilibrato()){
             for(int i=0;i<numeroElementiAttivi;i++) {
                 elemento = new Elemento(i);
                 int totaleDanniAttacco = 0;
                 int totaleDanniSubiti = 0;
-                Deque<Arco> archiAttacanti = new ArrayDeque<>();
-                Deque<Arco> archiAttacantiVuoti = new ArrayDeque<>();
-                Deque<Arco> archiSubitori = new ArrayDeque<>();
-                Deque<Arco> archiSubitoriVuoti = new ArrayDeque<>();
+                List<Map.Entry<Arco,Integer>> archiAttacanti = new ArrayList<>();
+                List<Map.Entry<Arco,Integer>> archiSubitori = new ArrayList<>();
                 for (Map.Entry<Arco, Integer> entry : mappaDirezioni.entrySet()) {
                     Arco attuale = entry.getKey();
+                    if(entry.getValue()==0)entry.setValue(rand.nextInt(vitaGolem)+1);
                     if (attuale.getElementoDiPartenza().equals(elemento)) {
-                        if (entry.getValue() == null) archiAttacantiVuoti.addFirst(attuale);
-                        else {
-                            totaleDanniAttacco += entry.getValue();
-                            archiAttacanti.addFirst(attuale);
-                        }
+                        archiAttacanti.add(entry);
+                        totaleDanniAttacco += entry.getValue();
                     }
                     if (attuale.getElementoDiArrivo().equals(elemento)) {
-                        if (entry.getValue() == null) archiSubitoriVuoti.addFirst(attuale);
-                        else {
-                            totaleDanniSubiti += entry.getValue();
-                            archiSubitori.addFirst(attuale);
-                        }
+                        totaleDanniSubiti += entry.getValue();
+                        archiSubitori.add(entry);
                     }
                 }
-                if(archiAttacanti.isEmpty() && archiSubitori.isEmpty()) {
-                    cicloAssegnamento(archiAttacantiVuoti,vitaGolem);
-                    cicloAssegnamento(archiSubitoriVuoti,vitaGolem);
-                }else if(archiAttacanti.isEmpty()){
-                    if(archiSubitoriVuoti.isEmpty())    cicloAssegnamento(archiAttacantiVuoti,totaleDanniSubiti);
-                    else{
-                        cicloAssegnamento(archiAttacantiVuoti,totaleDanniSubiti);
-                        cicloAssegnamento(archiSubitoriVuoti,vitaGolem);
-                    }
-                }else if(archiAttacantiVuoti.isEmpty()){
-                    if(!archiSubitoriVuoti.isEmpty())   cicloAssegnamento(archiSubitoriVuoti,totaleDanniAttacco);
-                }
-                if(archiAttacantiVuoti.isEmpty() && archiSubitoriVuoti.isEmpty()){
-                    //qua sono tutti già assegnati
-                    /*if(totaleDanniAttacco<totaleDanniSubiti){
-                        cicloAssegnamento(archiSubitori,totaleDanniSubiti-totaleDanniAttacco);
-                    }else if (totaleDanniAttacco>totaleDanniSubiti){
-                        cicloAssegnamento(archiAttacanti,totaleDanniAttacco-totaleDanniSubiti);
-                    }*/
+                if(totaleDanniAttacco==totaleDanniSubiti)continue;
+                boolean x = rand.nextBoolean();
+                if(totaleDanniAttacco>totaleDanniSubiti){
+                    if(x)assegnaValore(archiSubitori,vitaGolem,true, totaleDanniAttacco-totaleDanniSubiti);
+                    else assegnaValore(archiAttacanti,vitaGolem,false, totaleDanniAttacco-totaleDanniSubiti);
+                }else if(totaleDanniSubiti>totaleDanniAttacco){
+                    if(x)assegnaValore(archiSubitori,vitaGolem,false,totaleDanniSubiti-totaleDanniAttacco);
+                    else assegnaValore(archiAttacanti,vitaGolem,true,totaleDanniSubiti-totaleDanniAttacco);
                 }
             }
-
         }
-    //}
+    }
 
-    public void cicloAssegnamento(Deque<Arco> archi, int totale){
-        int totaleDanniSuddivisi=totale/archi.size();
-        while(archi.size()>0){
-            if(archi.size()==1)mappaDirezioni.put(archi.removeFirst(),totale);
-            else mappaDirezioni.put(archi.removeFirst(),totaleDanniSuddivisi);
-            totale-=totaleDanniSuddivisi;
+    private void assegnaValore(List<Map.Entry<Arco,Integer>> lista, int vitaGolem,boolean moltiplicatore, int niterazioni){
+        Random rand = new Random();
+        int indice=0;
+        for(int i=0; i<niterazioni;i++) {
+            indice = rand.nextInt(lista.size());
+            if (moltiplicatore) {
+                if(lista.get(indice).getValue() < vitaGolem)
+                    mappaDirezioni.put(lista.get(indice).getKey(), lista.get(indice).getValue() + 1);
+            } else {
+                if(lista.get(indice).getValue() > 0) {
+                    mappaDirezioni.put(lista.get(indice).getKey(), lista.get(indice).getValue() - 1);
+                }
+            }
         }
     }
 
