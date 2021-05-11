@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Random;
 
 public class Grafo {
-    private Map<Arco,Integer> mappaDirezioni;
+    private static final String MSG_INTERAZIO_PIETRE = "La pietra di %s ha il sopravvento su quella di %s";
+	private static final String ANNULLAMENTO = "Le pietre sono dello stesso tipo e si annullano a vicenda";
+	private Map<Arco,Integer> mappaDirezioni;
     //numero di elementi che possono interagire insieme
     /**
      * numero di elementi che possono interagire insieme
@@ -17,13 +19,12 @@ public class Grafo {
      */
     public Grafo() {
         this.mappaDirezioni = new HashMap<>();
-        this.mappaDirezioni.put(null,0);
+        
     }
 
     public void StampaEquilibrio() {
         for(Map.Entry<Arco,Integer> entry: mappaDirezioni.entrySet()) {
-        	Arco a = entry.getKey();
-        	System.out.println( a.getElementoDiPartenza().getNome() + "-->" + a.getElementoDiArrivo().getNome() + ":" + entry.getValue());
+        	System.out.println( entry.getKey().toString() + "-->" + entry.getValue());
         }
     }
 
@@ -257,12 +258,15 @@ public class Grafo {
 
     public int getDanni(Elemento primo, Elemento secondo) {
     	if(primo.equals(secondo)) {
+    		System.out.println(ANNULLAMENTO);
     		return 0;
     	}
     	if(mappaDirezioni.get(new Arco(primo,secondo))!=null) {
+    		System.out.println(String.format(MSG_INTERAZIO_PIETRE, primo.getNome(),secondo.getNome()));
     		return mappaDirezioni.get(new Arco(primo,secondo)); 
     	}
     	else {
+    		System.out.println(String.format(MSG_INTERAZIO_PIETRE, secondo.getNome(),primo.getNome()));
     		return (-1)*mappaDirezioni.get(new Arco(secondo,primo)); 
     	}
     }

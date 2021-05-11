@@ -88,12 +88,17 @@ public class Scontro {
         if(danno<0) {
             int vita= g2.getGolems().getFirst().getHp()+danno;
             g2.getGolems().getFirst().setHp(vita);
-            System.out.println("Il TamaGolem di " + g1.getNome() + " infligge " + (-1)*danno + " danni.");
+            if(g2.getGolems().getFirst().isAlive()) {
+              System.out.println("Il TamaGolem di " + g1.getNome() + " infligge " + (-1)*danno + " danni.");	
+            }
+            
         }
         if(danno>0) {
             int vita=g1.getGolems().getFirst().getHp()-danno;
             g1.getGolems().getFirst().setHp(vita);
-            System.out.println("Il TamaGolem di " + g2.getNome() + " infligge " + danno + " danni.");
+            if(g1.getGolems().getFirst().isAlive()) {
+                System.out.println("Il TamaGolem di " + g1.getNome() + " infligge " + (-1)*danno + " danni.");	
+              }
         }
 
     }
