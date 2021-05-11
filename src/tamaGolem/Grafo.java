@@ -20,15 +20,18 @@ public class Grafo {
         this.mappaDirezioni.put(null,0);
     }
 
-    public Map<Arco, Integer> getMappaDirezioni() {
-        return mappaDirezioni;
+    public void StampaEquilibrio() {
+        for(Map.Entry<Arco,Integer> entry: mappaDirezioni.entrySet()) {
+        	Arco a = entry.getKey();
+        	System.out.println( a.getElementoDiPartenza().getNome() + "-->" + a.getElementoDiArrivo().getNome() + ":" + entry.getValue());
+        }
     }
 
-    public int[][] generaEquilibrio(int n){
+    public void generaEquilibrio(int n){
         Random rand = new Random();
         int[][] m = new int[n][n];
         int valoreMax = 0;
-        int vitaMax = 25;
+        int vitaMax = Main.getVitaGolem();
         do {
             //Imposta i valori della diagonale a 0
             for (int i = 0; i < n; i++) {
@@ -199,7 +202,13 @@ public class Grafo {
                 m[rigaValoreMax][colonnaValoreMax]++;
             }
         }while (valoreMaxUgualeAVitaMax == false);
-        return m;
+      //Imposta la mappaDirezioni con i valori nella matrice (zeri esclusi) prendendo gli elementi con l'id
+        // corrispondente agli indici di riga e colonna
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<n; j++){
+                if (m[i][j] != 0) mappaDirezioni.put(new Arco(new Elemento(i), new Elemento(j)), m[i][j]);
+            }
+        }
     }
 
     /**

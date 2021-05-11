@@ -97,4 +97,15 @@ public class Scontro {
         }
 
     }
+    
+    public String vincitore() {
+    	if(g1.getGolems().isEmpty()) {
+    		return g2.getNome();
+    	}
+    	if(g2.getGolems().isEmpty()) {
+    		return g1.getNome();
+    	}
+    	
+    return "";
+    }
 }
