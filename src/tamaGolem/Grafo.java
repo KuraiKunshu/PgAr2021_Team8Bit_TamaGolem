@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class Grafo {
-    private static final String MSG_INTERAZIO_PIETRE = "La pietra di %s ha il sopravvento su quella di %s";
+    private static final String MSG_INTERAZIONE_PIETRE = "La pietra di %s ha il sopravvento su quella di %s";
 	private static final String ANNULLAMENTO = "Le pietre sono dello stesso tipo e si annullano a vicenda";
 	private Map<Arco,Integer> mappaDirezioni;
     //numero di elementi che possono interagire insieme
@@ -41,7 +41,7 @@ public class Grafo {
     public void generaEquilibrio(int n){
         Random rand = new Random();
         int[][] m = new int[n][n];
-        int vitaMax = 20;//Da modificare
+        int vitaMax = Main.getVitaGolem();
         m = creaMatriceValida(m, n);
         boolean valoreMaxUgualeAVitaMax = false;
         do {
@@ -205,7 +205,7 @@ public class Grafo {
     }
 
     /**
-     * Ritorna true se la somma dei valori di ogni riga Ã¨ uguale alla somma dei valori della rispettiva colonna.
+     * Ritorna true se la somma dei valori di ogni riga è uguale alla somma dei valori della rispettiva colonna.
      * @param m matrice degli elementi, costituita da valori positivi (0 incluso)
      * @param n numero di elementi
      * @return true or false
@@ -221,8 +221,7 @@ public class Grafo {
             for (int k = 0; k < n; k++) {
                 sommaColonna += m[k][i];
             }
-            int differenza = sommaRiga - sommaColonna;
-            if (differenza != 0) return false;
+            if (sommaRiga != sommaColonna) return false;
         }
         return true;
     }
@@ -233,11 +232,11 @@ public class Grafo {
     		return 0;
     	}
     	if(mappaDirezioni.get(new Arco(primo,secondo))!=null) {
-    		System.out.println(String.format(MSG_INTERAZIO_PIETRE, primo.getNome(),secondo.getNome()));
+    		System.out.println(String.format(MSG_INTERAZIONE_PIETRE, primo.getNome(),secondo.getNome()));
     		return mappaDirezioni.get(new Arco(primo,secondo)); 
     	}
     	else {
-    		System.out.println(String.format(MSG_INTERAZIO_PIETRE, secondo.getNome(),primo.getNome()));
+    		System.out.println(String.format(MSG_INTERAZIONE_PIETRE, secondo.getNome(),primo.getNome()));
     		return (-1)*mappaDirezioni.get(new Arco(secondo,primo)); 
     	}
     }

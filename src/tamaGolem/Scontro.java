@@ -74,8 +74,9 @@ public class Scontro {
     public void evocazioneIniziale(int n) {
     	mondo.generaEquilibrio(n);
     	g1.scegliPietre(pietreDisponibili);
+        System.out.println("\nAdesso tocca a " + g2.getNome());
     	g2.scegliPietre(pietreDisponibili);
-       controlloCaricatore(n);
+        controlloCaricatore(n);
     }
 
     public void attacco(){
@@ -88,7 +89,6 @@ public class Scontro {
             if(g2.getGolems().getFirst().isAlive()) {
               System.out.println("Il TamaGolem di " + g1.getNome() + " infligge " + (-1)*danno + " danni al TamaGolem di "+g2.getNome());	
             }
-            
         }
         if(danno>0) {
             int vita=g1.getGolems().getFirst().getHp()-danno;
@@ -97,8 +97,8 @@ public class Scontro {
                 System.out.println("Il TamaGolem di " + g2.getNome() + " infligge " + danno +" danni al TamaGolem di "+g1.getNome());	
               }
         }
-
     }
+
     public void controlloCaricatore(int n) {
     	
     	int spazioCaricatore = g1.getGolems().getFirst().getNumeroCaricatore(n); 
@@ -124,13 +124,12 @@ public class Scontro {
         	g1.getGolems().getFirst().ruotaCaricatore();
         	g2.getGolems().getFirst().ruotaCaricatore();
     	}
-    
-    	
 //    	if(j==spazioCaricatore) {
 //    		return false;
 //    	}
 //    	return true;
     }
+
     public String vincitore() {
     	if(g1.getGolems().isEmpty()) {
     		return g2.getNome();
@@ -138,7 +137,6 @@ public class Scontro {
     	if(g2.getGolems().isEmpty()) {
     		return g1.getNome();
     	}
-    	
     return "";
     }
 }

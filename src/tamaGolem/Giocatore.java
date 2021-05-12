@@ -75,7 +75,7 @@ public class Giocatore {
 		int CapienzaCaricatore;
 		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
 		if(this.golems.isEmpty()){
-            System.out.println(this.nome + ", ha esaurito i suoi golem.");
+            System.out.println(this.nome + " ha esaurito i suoi TamaGolem.");
         }else
 		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
 			Interazione.stampaPietreDisponibili(pietreDisponibili);
@@ -87,6 +87,4 @@ public class Giocatore {
 			else System.out.println("La pietra scelta non è disponibile.");
 		}
     }
-    
-   
 }

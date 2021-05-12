@@ -5,11 +5,10 @@ import java.util.Map;
 
 public class Main {
 	
-	private static final String MSG_END = "Programma TamaGolem terminato. autodistruzione in corso...";
-	private static final String MSG_WINNER = "Il vincitore di questo scontro è :";
+	private static final String MSG_END = "Programma TamaGolem terminato. Autodistruzione in corso...";
+	private static final String MSG_WINNER = "Il vincitore di questo scontro è: ";
 	private static int NumeroElementi;
 	private static int VitaGolem;
-
 
     public static int getNumeroElementi() {
         return NumeroElementi;
@@ -36,7 +35,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        Map<Arco,Integer> mappa= new HashMap<>();
         while(Interazione.nuovaPartita()){
             Interazione.sceltaDifficolta();
             Scontro s = new Scontro();
@@ -46,12 +44,12 @@ public class Main {
             while (!(s.getG1().getGolems().isEmpty() || s.getG2().getGolems().isEmpty())){
                 s.attacco();
                 if(!(s.getG1().getGolems().getFirst().isAlive())){
-                    System.out.println("Il golem di " + s.getG1().getNome() + " Ã¨ morto");
+                    System.out.println("Il TamaGolem di " + s.getG1().getNome() + " è morto");
                     s.getG1().rimuoviGolem();
                     s.getG1().scegliPietre(s.getPietreDisponibili());
                 }
                 if(!(s.getG2().getGolems().getFirst().isAlive())){
-                    System.out.println("Il golem di " + s.getG2().getNome() + " Ã¨ morto");
+                    System.out.println("Il TamaGolem di " + s.getG2().getNome() + " è morto");
                     s.getG2().rimuoviGolem();
                     s.getG2().scegliPietre(s.getPietreDisponibili());
                 }
@@ -60,11 +58,7 @@ public class Main {
             System.out.println(MSG_WINNER+ s.vincitore());
             Main.pausa();
             s.getMondo().StampaEquilibrio();
-            
-            
         }
         System.out.println(MSG_END);
-
-     
     }
 }

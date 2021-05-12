@@ -3,7 +3,7 @@ package tamaGolem;
 public class Elemento {
     private String nome;
     private static final String[] ELEMENTI={"Fuoco","Acqua","Eletro","Terra","Luce","Morte","Natura","Lotta","Veleno","Unknown"};
-    //private static final String[] ELEMENTI={"Goku","Naruto","Tetofonta","Shrek","Tarzan","Spongebob","Peppa Pig","Superman","Batman","Trump"};
+    //private static final String[] ELEMENTI={"Goku","Naruto","Yoda","Shrek","Tarzan","Spongebob","Obama","Superman","Batman","Trump"};
 
     public Elemento(int id) {
         this.nome = ELEMENTI[id];
