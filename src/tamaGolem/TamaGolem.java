@@ -66,8 +66,8 @@ public class TamaGolem {
      * @return ritorna l'elemento spostato
      */
     public Elemento ruotaCaricatore(){
-        Elemento e = caricatore.removeFirst();
-        caricatore.addLast(e);
+        Elemento e = caricatore.removeLast();
+        caricatore.addFirst(e);
         return e;
     }
 }

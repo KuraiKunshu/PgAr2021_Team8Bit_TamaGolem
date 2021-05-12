@@ -19,6 +19,9 @@ public class Interazione {
 	private static final String FACILE = DIFFICOLTA0 + ". Facile (" + ELEMENTI_FACILE + " elementi)";
 	private static final String MEDIO = DIFFICOLTA1 + ". Medio (" + ELEMENTI_MEDIO + " elementi)";
 	private static final String DIFFICILE = DIFFICOLTA2 + ". Difficile (" + ELEMENTI_DIFFICILE + " elementi)";
+	public static final String MSG_GOLEM_FINITI = "%s , ha esaurito i suoi golem.";
+    public static final String RICHIESTA_INDICE = "%s . Inserisci l'indice dell'elemento che desideri:";
+    public static final String MSG_PIETRA_ASSENTE = "La pietra scelta non è disponibile.";
 
 
 	public static boolean nuovaPartita(){

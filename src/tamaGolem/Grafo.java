@@ -28,37 +28,30 @@ public class Grafo {
         }
     }
 
+    /**
+     * Crea una matrice costituita da valori che vanno da 0 alla vita massima del TamaGolem.
+     * La somma dei valori di ogni riga è uguale alla somma dei valori della rispettiva colonna.
+     * Il valore massimo nella matrice è sempre la vita massima del TamaGolem.
+     * La diagonale è costituita da zeri.
+     * Se un valore della matrice è maggiore di 0, allora il suo valore simmetrico rispetto alla diagonale è 0 e viceversa.
+     * In questo modo ogni valore diverso da 0 rappresenta la potenza con cui l'Elemento con indice pari a quello della riga
+     * danneggia quello con indice pari a qullo della colonna.
+     * @param n numero di elementi
+     */
     public void generaEquilibrio(int n){
         Random rand = new Random();
         int[][] m = new int[n][n];
-        int valoreMax = 0;
-        int vitaMax = Main.getVitaGolem();
-        do {
-            //Imposta i valori della diagonale a 0
-            for (int i = 0; i < n; i++) {
-                m[i][i] = 0;
-            }
-            //Imposta la matrice (esclusa la diagonale) con 0 oppure 1 in modo casuale, simmetrica rispetto alla diagonale
-            for (int i = 0; i < n - 1; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    m[i][j] = rand.nextInt(2);
-                    if (m[i][j] == 0) m[j][i] = 1;
-                    else m[j][i] = 0;
-                }
-            }
-            //Continua il cilo finchÃ¨ la matrice non Ã¨ valida
-        } while (!isMatriceElementiValida(m, n));
+        int vitaMax = 20;//Da modificare
+        m = creaMatriceValida(m, n);
         boolean valoreMaxUgualeAVitaMax = false;
         do {
             do {
                 //Prova a rendere la matrice equilibrata aumentando i valori diversi da zero
-                int sommaRiga, sommaColonna, contatoreValoriNonNulliRiga, contatoreValoriNonNulliColonna;
-                int valorePrecedente = 0, rigaValorePrecedente = 0, colonnaValorePrecedente = 0;
                 for (int i = 0; i < n; i++) {
-                    sommaRiga = 0;
-                    sommaColonna = 0;
-                    contatoreValoriNonNulliRiga = 0;
-                    contatoreValoriNonNulliColonna = 0;
+                    int sommaRiga = 0;
+                    int sommaColonna = 0;
+                    int contatoreValoriNonNulliRiga = 0;
+                    int contatoreValoriNonNulliColonna = 0;
                     //Calcola somma dei valori nella riga e quanti valori non nulli ci sono
                     for (int j = 0; j < n; j++) {
                         sommaRiga += m[i][j];
@@ -73,56 +66,28 @@ public class Grafo {
                             contatoreValoriNonNulliColonna++;
                         }
                     }
-                    //Calcola la differenza tra sommaRiga e sommaColonna
                     int differenza = sommaRiga - sommaColonna;
                     int valoreCasualeContatore;
                     //Se sommaColonna > sommaRiga aggiunge 1 ad uno dei valori non nulli della riga
                     if (differenza < 0) {
                         //Prende un numero casuale tra i valori non nulli della riga
                         valoreCasualeContatore = rand.nextInt(contatoreValoriNonNulliRiga) + 1;
+                        int contatore = 0;
+                        //Controlla i valori della riga e aumenta di 1 il contatore ogni volta che incontra un valore non nullo
                         for (int j = 0; j < n; j++) {
-                            int contatore = 0;
                             if (m[i][j] != 0) {
                                 contatore++;
                             }
                             //Quando trova il valore non nullo corrispondente al valore casuale trovato
                             if (contatore == valoreCasualeContatore) {
-                                //Se il valore Ã¨ minore della vitaMax del TamaGolem aggiunge 1
+                                //Se il valore è minore della vitaMax del TamaGolem aggiunge 1
                                 if (m[i][j] < vitaMax) {
-                                    valorePrecedente = m[i][j];
-                                    rigaValorePrecedente = i;
-                                    colonnaValorePrecedente = j;
                                     m[i][j]++;
                                     break;
                                 }
-                                //Se il valore Ã¨ uguale alla vitaMax del TamaGolem
+                                //Se il valore è uguale alla vitaMax del TamaGolem crea una nuova matrice valida
                                 else if (m[i][j] == vitaMax) {
-                                    //PuÃ² essere che tutti i valori non nulli siano = vitaMax?
-                                    //Se esistono almeno 2 valori casuali non nulli nella riga
-                                    if (contatoreValoriNonNulliRiga != 1) {
-                                        //Cerca un altro valore non nullo della riga finchÃ¨ trova uno diverso da quello appena considerato
-                                    /*do{
-                                        valoreCasualeContatore = rand.nextInt(contatoreValoriNonNulliRiga) + 1;
-                                    }while (contatore == valoreCasualeContatore);
-                                    if ()*/
-                                    }
-                                    //Se esiste un solo valore non nullo nella riga
-                                    else if (contatoreValoriNonNulliRiga == 1) {
-                                        m[rigaValorePrecedente][colonnaValorePrecedente] = valorePrecedente;
-                                        do{
-                                            valoreCasualeContatore = rand.nextInt(contatoreValoriNonNulliColonna) + 1;
-                                        }while (contatore == valoreCasualeContatore);
-                                        contatore = 0;
-                                        for(int l=0; l<contatoreValoriNonNulliColonna; l++){
-                                            if (m[i][l] != 0) {
-                                                contatore++;
-                                            }
-                                            if (contatore == valoreCasualeContatore){
-                                                m[i][l]++;
-                                                break;
-                                            }
-                                        }
-                                    }
+                                    m = creaMatriceValida(m, n);
                                 }
                             }
                         }
@@ -131,85 +96,91 @@ public class Grafo {
                     else if (differenza > 0) {
                         //Prende un numero casuale tra i valori non nulli della colonna
                         valoreCasualeContatore = rand.nextInt(contatoreValoriNonNulliColonna) + 1;
+                        int contatore = 0;
+                        //Controlla i valori della colonna e aumenta di 1 il contatore ogni volta che incontra un valore non nullo
                         for (int k = 0; k < n; k++) {
-                            int contatore = 0;
                             if (m[k][i] != 0) {
                                 contatore++;
                             }
                             //Quando trova il valore non nullo corrispondente al valore casuale trovato
                             if (contatore == valoreCasualeContatore) {
-                                //Se il valore Ã¨ minore della vitaMax del TamaGolem aggiunge 1
+                                //Se il valore è minore della vitaMax del TamaGolem aggiunge 1
                                 if (m[k][i] < vitaMax) {
-                                    valorePrecedente = m[k][i];
-                                    rigaValorePrecedente = k;
-                                    colonnaValorePrecedente = i;
                                     m[k][i]++;
                                     break;
                                 }
-                                //Se il valore Ã¨ uguale alla vitaMax del TamaGolem
+                                //Se il valore è uguale alla vitaMax del TamaGolem crea una nuova matrice valida
                                 else if (m[k][i] == vitaMax) {
-                                    //PuÃ² essere che tutti i valori non nulli siano = vitaMax?
-                                    //Se esistono almeno 2 valori casuali non nulli nella riga
-                                    if (contatoreValoriNonNulliColonna != 1) {
-                                        //Cerca un altro valore non nullo della riga finchÃ¨ trova uno diverso da quello appena considerato
-                                    /*do{
-                                        valoreCasualeContatore = rand.nextInt(contatoreValoriNonNulliColonna) + 1;
-                                    }while (contatore == valoreCasualeContatore);
-                                    if ()*/
-                                    }
-                                    //Se esiste un solo valore non nullo nella riga
-                                    else if (contatoreValoriNonNulliColonna == 1) {
-                                        m[rigaValorePrecedente][colonnaValorePrecedente] = valorePrecedente;
-                                        do{
-                                            valoreCasualeContatore = rand.nextInt(contatoreValoriNonNulliRiga) + 1;
-                                        }while (contatore == valoreCasualeContatore);
-                                        contatore = 0;
-                                        for(int l=0; i<contatoreValoriNonNulliRiga; l++){
-                                            if (m[l][i] != 0) {
-                                                contatore++;
-                                            }
-                                            if (contatore == valoreCasualeContatore){
-                                                m[l][i]++;
-                                                break;
-                                            }
-                                        }
-                                    }
+                                    m = creaMatriceValida(m, n);
                                 }
                             }
                         }
                     }
                 }
-                //Continua il ciclo finchÃ¨ non trova una matrice equilibrata
+            //Continua il ciclo finchè non trova una matrice equilibrata
             } while (!isMatriceEquilibrata(m, n));
 
-            //Trova il valore massimo presente nella matrice
-            valoreMax = 0;
-            int rigaValoreMax = 0, colonnaValoreMax = 0;
+            //Trova il valore minimo (diverso da 0) presente nella matrice e la sua posizione
+            int valoreMin = vitaMax;
+            int rigaValoreMin = 0, colonnaValoreMin = 0;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (m[i][j] < valoreMin && m[i][j] != 0){
+                        valoreMin = m[i][j];
+                        rigaValoreMin = i;
+                        colonnaValoreMin = j;
+                    }
+                }
+            }
+            //Trova il valore massimo presente nella matrice e la sua posizione
+            int valoreMax = 0;
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (m[i][j] > valoreMax){
                         valoreMax = m[i][j];
-                        rigaValoreMax = i;
-                        colonnaValoreMax = j;
                     }
                 }
             }
-            //Se il valoreMax Ã¨ uguale a vitaMax imposta valoreMaxUgualeAVitaMax = true
+            //Se il valoreMax è uguale a vitaMax imposta valoreMaxUgualeAVitaMax = true
             if (valoreMax == vitaMax) {
                 valoreMaxUgualeAVitaMax = true;
             }
-            //Altrimenti aumenta il valoreMax della matrice di 1
+            //Altrimenti aumenta il valoreMin della matrice di 1
             else{
-                m[rigaValoreMax][colonnaValoreMax]++;
+                m[rigaValoreMin][colonnaValoreMin]++;
             }
+        //Esce dal ciclo quando trova una matrice con valoreMax = vitaMax del TamaGolem
         }while (valoreMaxUgualeAVitaMax == false);
-      //Imposta la mappaDirezioni con i valori nella matrice (zeri esclusi) prendendo gli elementi con l'id
-        // corrispondente agli indici di riga e colonna
+        //Imposta la mappaDirezioni con i valori nella matrice (zeri esclusi) prendendo gli elementi con l'id
+        //corrispondente agli indici di riga e colonna
         for (int i=0; i<n; i++) {
             for (int j=0; j<n; j++){
                 if (m[i][j] != 0) mappaDirezioni.put(new Arco(new Elemento(i), new Elemento(j)), m[i][j]);
             }
         }
+    }
+
+    /**
+     * Imposta i valori di una matrice con 0 e 1, simmetrica rispetto alla diagonale e con zeri nella diagonale
+     * @param m matrice
+     * @param n numero di elementi
+     * @return matrice costituita da 0 oppure 1, simmetrica rispetto alla diagonale e con zeri nella diagonale
+     */
+    public int[][] creaMatriceValida(int[][] m, int n){
+        Random rand = new Random();
+        do {
+            //Imposta la matrice (esclusa la diagonale) con 0 oppure 1 in modo casuale, simmetrica rispetto alla diagonale
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    m[i][j] = rand.nextInt(2);
+                    //Rende la matrice simmetrica rispetto alla diagonale
+                    if (m[i][j] == 0) m[j][i] = 1;
+                    else m[j][i] = 0;
+                }
+            }
+        //Continua il ciclo finchè non trova una matrice valida
+        } while (!isMatriceElementiValida(m, n));
+        return m;
     }
 
     /**
