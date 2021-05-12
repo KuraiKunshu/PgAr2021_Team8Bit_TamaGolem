@@ -27,25 +27,25 @@ public class Grafo {
         int loop=calcoloNumeroArchi(numeroElementiAttivi);
         //genero degli archi in maniera casuale
         //potrei sostituire il while con 2 for e dato un valore casuale controllato decido la direzione (cioè lo genero se e solo se non mi interessa che direzione prende l'arco)
-        while (mappaDirezioni.size()<loop){
-            int indiceElementoAttaccante=rand.nextInt(numeroElementiAttivi);
-            int indiceElementoSubitore=rand.nextInt(numeroElementiAttivi);
-            if(indiceElementoAttaccante==indiceElementoSubitore)continue;
-            attaccante = new Elemento(indiceElementoAttaccante);
-            subitore = new Elemento(indiceElementoSubitore);
-            if(!(mappaDirezioni.containsKey(new Arco(attaccante,subitore)))&&!(mappaDirezioni.containsKey(new Arco(subitore,attaccante)))){
-                int numeroAttacchiAttaccante=0;
-                int numeroAttacchiSubitore=0;
-                int numeroSubitoSubitore=0;
-                int numeroSubitoAttaccante=0;
-                for(Map.Entry<Arco,Integer> entry : mappaDirezioni.entrySet()){
-                    if(entry.getKey().getElementoDiArrivo().equals(attaccante))numeroSubitoAttaccante++;
-                    if(entry.getKey().getElementoDiArrivo().equals(subitore))numeroSubitoSubitore++;
-                    if(entry.getKey().getElementoDiPartenza().equals(subitore))numeroAttacchiSubitore++;
-                    if(entry.getKey().getElementoDiPartenza().equals(attaccante))numeroAttacchiAttaccante++;
+        for(int i=0;i<numeroElementiAttivi;i++){
+            for(int j=0; j<numeroElementiAttivi; j++) {
+                if(i==j)continue;
+                attaccante = new Elemento(i);
+                subitore = new Elemento(j);
+                if(!(mappaDirezioni.containsKey(new Arco(attaccante,subitore)))&&!(mappaDirezioni.containsKey(new Arco(subitore,attaccante)))){
+                    int numeroAttacchiAttaccante=0;
+                    int numeroAttacchiSubitore=0;
+                    int numeroSubitoSubitore=0;
+                    int numeroSubitoAttaccante=0;
+                    for(Map.Entry<Arco,Integer> entry : mappaDirezioni.entrySet()){
+                        if(entry.getKey().getElementoDiArrivo().equals(attaccante))numeroSubitoAttaccante++;
+                        if(entry.getKey().getElementoDiArrivo().equals(subitore))numeroSubitoSubitore++;
+                        if(entry.getKey().getElementoDiPartenza().equals(subitore))numeroAttacchiSubitore++;
+                        if(entry.getKey().getElementoDiPartenza().equals(attaccante))numeroAttacchiAttaccante++;
+                    }
+                    if((numeroAttacchiAttaccante<numeroElementiAttivi-2)&&(numeroSubitoSubitore<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(attaccante,subitore), 0);
+                    else if((numeroAttacchiSubitore<numeroElementiAttivi-2)&&(numeroSubitoAttaccante<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(subitore,attaccante), 0);
                 }
-                if((numeroAttacchiAttaccante<numeroElementiAttivi-2)&&(numeroSubitoSubitore<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(attaccante,subitore), 0);
-                else if((numeroAttacchiSubitore<numeroElementiAttivi-2)&&(numeroSubitoAttaccante<numeroElementiAttivi-2)) mappaDirezioni.put(new Arco(subitore,attaccante), 0);
             }
         }
         Elemento elemento;
