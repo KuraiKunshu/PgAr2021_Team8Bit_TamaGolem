@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class Grafo {
-    private static final String MSG_INTERAZIONE_PIETRE = "La pietra di %s ha il sopravvento su quella di %s";
-	private static final String ANNULLAMENTO = "Le pietre sono dello stesso tipo e si annullano a vicenda";
+    private static final String MSG_INTERAZIONE_PIETRE = "La pietra di %s ha il sopravvento su quella %s";
+	private static final String ANNULLAMENTO = "Le 2 pietre %s si annullano a vicenda";
 	private Map<Arco,Integer> mappaDirezioni;
     //numero di elementi che possono interagire insieme
     /**
@@ -226,45 +226,24 @@ public class Grafo {
         return true;
     }
 
+    /**
+     * dati 2 elementi fornisce il quantitativo di danno in base all'elemento predominante
+     * @param primo primo elemento da confrontare
+     * @param secondo secondo elemento da confrontare
+     * @return ritorna il quantitativo di danni in base ai elementi
+     */
     public int getDanni(Elemento primo, Elemento secondo) {
     	if(primo.equals(secondo)) {
-    		System.out.println(ANNULLAMENTO);
+    		System.out.println(String.format(ANNULLAMENTO,primo.getNome()));
     		return 0;
     	}
-    	if(mappaDirezioni.get(new Arco(primo,secondo))!=null) {
-    		System.out.println(String.format(MSG_INTERAZIONE_PIETRE, primo.getNome(),secondo.getNome()));
+    	if(mappaDirezioni.containsKey(new Arco(primo,secondo))) {
+    		System.out.println(String.format(MSG_INTERAZIONE_PIETRE, secondo.getNome(),primo.getNome()));
     		return mappaDirezioni.get(new Arco(primo,secondo)); 
     	}
     	else {
-    		System.out.println(String.format(MSG_INTERAZIONE_PIETRE, secondo.getNome(),primo.getNome()));
+    		System.out.println(String.format(MSG_INTERAZIONE_PIETRE, primo.getNome(),secondo.getNome()));
     		return (-1)*mappaDirezioni.get(new Arco(secondo,primo)); 
     	}
     }
-
-    /*
-    /**
-     * ritorna il fattoriale di n
-     * @param n
-     * @return
-     */
-    /*
-    public int fattoriale(int n){
-        for(int i=n-1;i>0;i--){
-            n*=i;
-        }
-        return n;
-    }*/
-    /*
-    /**
-     * data la formula della combinazione senza ripetizione, ritorna il risultato.
-     * C(n,k) = n!/(k!*(n-k)!)
-     * k è data dalla costante NUMERO_COMBINAZIONE
-     * @param n
-     * @return
-     */
-    /*
-    public int calcoloNumeroArchi(int n){
-        return (fattoriale(n))/(fattoriale(NUMERO_COMBINAZIONE)*fattoriale(n-NUMERO_COMBINAZIONE));
-    }*/
-
 }

@@ -1,8 +1,5 @@
 package tamaGolem;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Main {
 	
 
@@ -48,8 +45,7 @@ public class Main {
 
                    
                     s.getG1().rimuoviGolem();
-                    s.getG1().scegliPietre(s.getPietreDisponibili());
-                    s.controlloCaricatore(NumeroElementi, s.getG2(), s.getG1());
+                    s.getG1().scegliPietre(s.getPietreDisponibili(), s.getG2());
                 }
                 if(!(s.getG2().getGolems().getFirst().isAlive())){
 
@@ -57,13 +53,14 @@ public class Main {
 
                     
                     s.getG2().rimuoviGolem();
-                    s.getG2().scegliPietre(s.getPietreDisponibili());
-                    s.controlloCaricatore(NumeroElementi, s.getG1(), s.getG2());
+                    s.getG2().scegliPietre(s.getPietreDisponibili(),s.getG1());
                 }
                 Main.pausa();
             }
             System.out.println(Interazione.MSG_WINNER+ s.vincitore());
             Main.pausa();
+            System.out.println("questo è l'equilibrio del sistema:");
+            Interazione.aCapo();
             s.getMondo().StampaEquilibrio();
         }
 

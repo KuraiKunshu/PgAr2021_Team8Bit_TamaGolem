@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class Interazione {
 	
 	private static final String NUOVA_PARTITA="Vuoi iniziare una nuova partita di golem?\n";
-	private static final String SCEGLI_DIFFICOLTA = "Scegli la difficoltà:";
+	private static final String SCEGLI_DIFFICOLTA = "Scegli la difficoltï¿½:";
 	private static final int ELEMENTI_FACILE = 5;
 	private static final int ELEMENTI_MEDIO = 7;
 	private static final int ELEMENTI_DIFFICILE = 10;
@@ -26,13 +26,13 @@ public class Interazione {
 	private static final String ERRORE_OMONIMIA = "Non puoi inserire lo stesso nome per entrambi i giocatori.";
 	
 	public static final String RICHIESTA_INDICE = "%s . Inserisci l'indice dell'elemento che desideri:";
-	public static final String MSG_PIETRA_ASSENTE = "La pietra scelta non è disponibile.";
-	public static final String MSG_CAMBIA_PIETRA = "La pietra di tipo %s in posizione %n comprometterebbe la partita, quindi scegli un'altra pietra che vada a sostituirla";
-	public static final String MSG_DANNI="Il golem di %s infligge %n danni al golem di %s";
-	public static final String MSG_DEAD = "Il golem di %s è morto";
+	public static final String MSG_PIETRA_ASSENTE = "La pietra scelta non ï¿½ disponibile.";
+	public static final String MSG_CAMBIA_PIETRA = "La pietra di tipo %s in posizione %d comprometterebbe la partita, quindi scegli un'altra pietra che vada a sostituirla";
+	public static final String MSG_DANNI="Il golem di %s infligge %d danni al golem di %s";
+	public static final String MSG_DEAD = "Il golem di %s ï¿½ morto";
 	public static final String MSG_GOLEM_FINITI = "%s , ha esaurito i suoi golem.";
     
-	public static final String MSG_WINNER = "Il vincitore di questo scontro è :";
+	public static final String MSG_WINNER = "Il vincitore di questo scontro ï¿½ :";
 	public static final String MSG_END = "Programma golem terminato. autodistruzione in corso...";
 
 
@@ -64,12 +64,12 @@ public class Interazione {
 		int n = Main.getNumeroElementi();
 		int golemPerGiocatore = Giocatore.getNumeroGolem(n, TamaGolem.getNumeroCaricatore(n));
 		String nome1, nome2;
-
-		nome1 = InputDati.leggiStringaNonVuota(String.format(RICHIESTA_NOME,"Giocatore1" ));
+		InputDati.leggiLine("");
+		nome1 = InputDati.leggiLineNonVuota(String.format(RICHIESTA_NOME,"Giocatore1"));
 		Giocatore g1 = new Giocatore(nome1, golemPerGiocatore);
 		s.setG1(g1);
 		do{
-			nome2 = InputDati.leggiStringaNonVuota(String.format(RICHIESTA_NOME,"Giocatore2" ));
+			nome2 = InputDati.leggiLineNonVuota(String.format(RICHIESTA_NOME,"Giocatore2"));
 			if (nome1.equalsIgnoreCase(nome2)) System.out.println(ERRORE_OMONIMIA);
 		}while (nome1.equalsIgnoreCase(nome2));
 		Giocatore g2 = new Giocatore(nome2, golemPerGiocatore);
@@ -77,7 +77,6 @@ public class Interazione {
 	}
 	
 	public static void stampaPietreDisponibili(LinkedList<Elemento> pietre) {
-		System.out.println(RICHIESTA_INDICE);
 		for(int i=0; i < Main.getNumeroElementi(); i++) {
 			int numPietreUguali=0;
 			Elemento elemento = new Elemento(i);
@@ -86,5 +85,9 @@ public class Interazione {
 			}
 			System.out.println(i + "-" + elemento.getNome() + "("+ numPietreUguali +")");
 		}
+	}
+
+	public static void aCapo(){
+		System.out.println();
 	}
 }
