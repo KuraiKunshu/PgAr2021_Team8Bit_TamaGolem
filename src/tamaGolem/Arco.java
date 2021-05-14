@@ -13,7 +13,7 @@ public class Arco {
      * ritorna l'oggetto dell'elemento di partenza dell'arco
      * @return
      */
-    public Object getElementoDiPartenza() {
+    public Elemento getElementoDiPartenza() {
         return elementoDiPartenza;
     }
 
@@ -29,7 +29,7 @@ public class Arco {
      * ritorna l'oggetto dell'elemento di arrivo dell'arco
      * @return
      */
-    public Object getElementoDiArrivo() {
+    public Elemento getElementoDiArrivo() {
         return elementoDiArrivo;
     }
 
@@ -49,8 +49,7 @@ public class Arco {
      */
     @Override
     public boolean equals(Object Obj){
-        if(Obj.getClass().equals(this.getClass())) if (this.hashCode() == Obj.hashCode()) return true;
-        return false;
+        return this.toString().equals(Obj.toString());
     }
 
     /**
