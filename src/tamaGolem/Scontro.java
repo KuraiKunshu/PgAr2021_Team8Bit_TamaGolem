@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import it.unibs.fp.mylib.InputDati;
 
 public class Scontro {
+	
+	
     private LinkedList<Elemento> pietreDisponibili;
     private Giocatore g1;
     private Giocatore g2;
@@ -86,7 +88,7 @@ public class Scontro {
             int vita= g2.getGolems().getFirst().getHp()+danno;
             g2.getGolems().getFirst().setHp(vita);
             if(g2.getGolems().getFirst().isAlive()) {
-              System.out.println("Il TamaGolem di " + g1.getNome() + " infligge " + (-1)*danno + " danni al TamaGolem di "+g2.getNome());	
+              System.out.println(String.format(Interazione.MSG_DANNI, g1.getNome(), (-1)*danno, g2.getNome()));	
             }
             
         }
@@ -94,7 +96,7 @@ public class Scontro {
             int vita=g1.getGolems().getFirst().getHp()-danno;
             g1.getGolems().getFirst().setHp(vita);
             if(g1.getGolems().getFirst().isAlive()) {
-                System.out.println("Il TamaGolem di " + g2.getNome() + " infligge " + danno +" danni al TamaGolem di "+g1.getNome());	
+                System.out.println(String.format(Interazione.MSG_DANNI, g2.getNome(), danno, g1.getNome()));	
               }
         }
 
@@ -102,24 +104,28 @@ public class Scontro {
     public void controlloCaricatore(int n) {
     	
     	int spazioCaricatore = g1.getGolems().getFirst().getNumeroCaricatore(n); 
+    	int j=0;
     	for(int i=0; i<spazioCaricatore;i++) {
     		Elemento pietra1 = g1.getGolems().getFirst().getCaricatore().getLast();
         	Elemento pietra2 = g2.getGolems().getFirst().getCaricatore().getLast();
         	Elemento newPietra2 = null;
         	if(pietra1.equals(pietra2)) {
-        		System.out.println("La pietra di tipo "+pietra2.getNome()+" in posizione "+(i+1)+" comprometterebbe la partita, quindi scegli un'altra pietra che vada a sostituirla");
-        		do{ 
-        			Interazione.stampaPietreDisponibili(pietreDisponibili);
-            	    int indice = InputDati.leggiIntero(g2.getNome() + ". Inserisci l'indice dell'elemento con cui vuoi sostituirlo:", 0, pietreDisponibili.size());
-                    newPietra2 = new Elemento(indice);
-                    if (pietreDisponibili.contains(newPietra2)){
-                       g2.getGolems().getFirst().getCaricatore().addLast(newPietra2);
-                       pietreDisponibili.remove(newPietra2);
-                       pietreDisponibili.add(pietra2);
-                       g2.getGolems().getFirst().getCaricatore().removeLastOccurrence(pietra2);
-                    }
-    			    else System.out.println(Interazione.MSG_PIETRA_ASSENTE);	
-                } while(newPietra2.equals(pietra2));
+        		j++;
+        		if(j%2==0) {
+        		   System.out.println(String.format(Interazione.MSG_CAMBIA_PIETRA, pietra2.getNome(), (i+1)));
+        		   do{ 
+        			   Interazione.stampaPietreDisponibili(pietreDisponibili);
+            	       int indice = InputDati.leggiIntero(String.format(Interazione.RICHIESTA_INDICE, g2.getNome()), 0, pietreDisponibili.size());
+                       newPietra2 = new Elemento(indice);
+                       if (pietreDisponibili.contains(newPietra2)){
+                         g2.getGolems().getFirst().getCaricatore().addLast(newPietra2);
+                         pietreDisponibili.remove(newPietra2);
+                         pietreDisponibili.add(pietra2);
+                         g2.getGolems().getFirst().getCaricatore().removeLastOccurrence(pietra2);
+                       }
+    			       else System.out.println(Interazione.MSG_PIETRA_ASSENTE);	
+                   } while(newPietra2.equals(pietra2));
+        		}
         	}
         	g1.getGolems().getFirst().ruotaCaricatore();
         	g2.getGolems().getFirst().ruotaCaricatore();

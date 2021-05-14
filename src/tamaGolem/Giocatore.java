@@ -7,7 +7,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class Giocatore {
-    private String nome;
+   
+	private String nome;
     private Deque<TamaGolem> golems;
 
     public Giocatore(String nome, int numeroElementi) {
@@ -75,16 +76,16 @@ public class Giocatore {
 		int CapienzaCaricatore;
 		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
 		if(this.golems.isEmpty()){
-            System.out.println(this.nome + ", ha esaurito i suoi golem.");
+            System.out.println(String.format(Interazione.MSG_GOLEM_FINITI, this.nome));
         }else
 		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
 			Interazione.stampaPietreDisponibili(pietreDisponibili);
-            int n = InputDati.leggiIntero(this.getNome() + ". Inserisci l'indice dell'elemento che desideri:", 0, pietreDisponibili.size());
+            int n = InputDati.leggiIntero((String.format(Interazione.RICHIESTA_INDICE, this.getNome())), 0, pietreDisponibili.size());
             if (pietreDisponibili.contains(new Elemento(n))){
                 this.golems.getFirst().setCaricatore(new Elemento(n));
                 pietreDisponibili.remove(new Elemento(n));
             }
-			else System.out.println("La pietra scelta non è disponibile.");
+			else System.out.println(Interazione.MSG_PIETRA_ASSENTE);
 		}
     }
     

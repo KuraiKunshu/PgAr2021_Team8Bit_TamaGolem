@@ -5,8 +5,7 @@ import java.util.Map;
 
 public class Main {
 	
-	private static final String MSG_END = "Programma TamaGolem terminato. autodistruzione in corso...";
-	private static final String MSG_WINNER = "Il vincitore di questo scontro � :";
+	
 	private static int NumeroElementi;
 	private static int VitaGolem;
 
@@ -46,24 +45,24 @@ public class Main {
             while (!(s.getG1().getGolems().isEmpty() || s.getG2().getGolems().isEmpty())){
                 s.attacco();
                 if(!(s.getG1().getGolems().getFirst().isAlive())){
-                    System.out.println("Il golem di " + s.getG1().getNome() + " è morto");
+                    System.out.println(String.format(Interazione.MSG_DEAD, s.getG1().getNome()));
                     s.getG1().rimuoviGolem();
                     s.getG1().scegliPietre(s.getPietreDisponibili());
                 }
                 if(!(s.getG2().getGolems().getFirst().isAlive())){
-                    System.out.println("Il golem di " + s.getG2().getNome() + " è morto");
+                    System.out.println(String.format(Interazione.MSG_DEAD, s.getG2().getNome()));
                     s.getG2().rimuoviGolem();
                     s.getG2().scegliPietre(s.getPietreDisponibili());
                 }
                 Main.pausa();
             }
-            System.out.println(MSG_WINNER+ s.vincitore());
+            System.out.println(Interazione.MSG_WINNER+ s.vincitore());
             Main.pausa();
             s.getMondo().StampaEquilibrio();
             
             
         }
-        System.out.println(MSG_END);
+        System.out.println(Interazione.MSG_END);
 
      
     }

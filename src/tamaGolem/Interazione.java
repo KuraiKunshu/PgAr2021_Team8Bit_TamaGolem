@@ -5,6 +5,7 @@ import it.unibs.fp.mylib.InputDati;
 import java.util.LinkedList;
 
 public class Interazione {
+	
 	private static final String NUOVA_PARTITA="Vuoi iniziare una nuova partita di TamaGolem?\n";
 	private static final String SCEGLI_DIFFICOLTA = "Scegli la difficolt√†:";
 	private static final int ELEMENTI_FACILE = 5;
@@ -19,9 +20,20 @@ public class Interazione {
 	private static final String FACILE = DIFFICOLTA0 + ". Facile (" + ELEMENTI_FACILE + " elementi)";
 	private static final String MEDIO = DIFFICOLTA1 + ". Medio (" + ELEMENTI_MEDIO + " elementi)";
 	private static final String DIFFICILE = DIFFICOLTA2 + ". Difficile (" + ELEMENTI_DIFFICILE + " elementi)";
+	
+	private static final String RICHIESTA_NOME2 = "Giocatore 2. Inserisci il tuo nome:";
+	private static final String RICHIESTA_NOME1 = "Giocatore 1. Inserisci il tuo nome:";
+	private static final String ERRORE_OMONIMIA = "Non puoi inserire lo stesso nome per entrambi i giocatori.";
+	
+	public static final String RICHIESTA_INDICE = "%s . Inserisci l'indice dell'elemento che desideri:";
+	public static final String MSG_PIETRA_ASSENTE = "La pietra scelta non Ë disponibile.";
+	public static final String MSG_CAMBIA_PIETRA = "La pietra di tipo %s in posizione %n comprometterebbe la partita, quindi scegli un'altra pietra che vada a sostituirla";
+	public static final String MSG_DANNI="Il TamaGolem di %s infligge %n danni al TamaGolem di %s";
+	public static final String MSG_DEAD = "Il golem di %s Ë morto";
 	public static final String MSG_GOLEM_FINITI = "%s , ha esaurito i suoi golem.";
-    public static final String RICHIESTA_INDICE = "%s . Inserisci l'indice dell'elemento che desideri:";
-    public static final String MSG_PIETRA_ASSENTE = "La pietra scelta non Ë disponibile.";
+    
+	public static final String MSG_WINNER = "Il vincitore di questo scontro Ë :";
+	public static final String MSG_END = "Programma TamaGolem terminato. autodistruzione in corso...";
 
 
 	public static boolean nuovaPartita(){
@@ -55,19 +67,19 @@ public class Interazione {
 		int golemPerGiocatore = Giocatore.getNumeroGolem(n, TamaGolem.getNumeroCaricatore(n));
 		String nome1, nome2;
 
-		nome1 = InputDati.leggiStringaNonVuota("Giocatore 1. Inserisci il tuo nome:");
+		nome1 = InputDati.leggiStringaNonVuota(RICHIESTA_NOME1);
 		Giocatore g1 = new Giocatore(nome1, golemPerGiocatore);
 		s.setG1(g1);
 		do{
-			nome2 = InputDati.leggiStringaNonVuota("Giocatore 2. Inserisci il tuo nome:");
-			if (nome1.equalsIgnoreCase(nome2)) System.out.println("Non puoi inserire lo stesso nome per entrambi i giocatori.");
+			nome2 = InputDati.leggiStringaNonVuota(RICHIESTA_NOME2);
+			if (nome1.equalsIgnoreCase(nome2)) System.out.println(ERRORE_OMONIMIA);
 		}while (nome1.equalsIgnoreCase(nome2));
 		Giocatore g2 = new Giocatore(nome2, golemPerGiocatore);
 		s.setG2(g2);
 	}
 	
 	public static void stampaPietreDisponibili(LinkedList<Elemento> pietre) {
-		System.out.println("Scegli tra le pietre disponibili digitando l'indice numerico:");
+		System.out.println(RICHIESTA_INDICE);
 		for(int i=0; i < Main.getNumeroElementi(); i++) {
 			int numPietreUguali=0;
 			Elemento elemento = new Elemento(i);
