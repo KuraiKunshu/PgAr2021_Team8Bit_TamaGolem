@@ -9,10 +9,6 @@ public class Elemento {
         this.nome = ELEMENTI[id];
     }
 
-    public Elemento(String nome) {
-        this.nome = nome;
-    }
-
     /**
      * ritorna il nome dell'elemento
      * @return

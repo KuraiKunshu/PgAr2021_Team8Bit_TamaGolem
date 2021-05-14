@@ -7,14 +7,13 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class Giocatore {
-   
-	private String nome;
+    private String nome;
     private Deque<TamaGolem> golems;
 
-    public Giocatore(String nome, int numeroElementi) {
+    public Giocatore(String nome, int golemPerGiocatore) {
         this.nome = nome;
         this.golems = new ArrayDeque<>();
-        CreaGolems(numeroElementi);
+        CreaGolems(golemPerGiocatore);
     }
 
     /**
@@ -55,25 +54,37 @@ public class Giocatore {
      * ⎡(n - 1)(n - 2) / (2 * p)⎤
      * @param n numero di elementi
      * @param p numero di pietre che il caricatore del TamaGolem può contenere
-     * @return
+     * @return numero di TamaGolem che il giocatore possiede a inizio partita
      */
     public static int getNumeroGolem(int n, int p){
         return (int)Math.ceil((n-1.0)*(n-2)/(2*p));
     }
 
-    public void CreaGolems (int nGolem){
-        for (int i = 0; i<nGolem; i++){
+    /**
+     * Dato il numero di golemPerGiocatore inserisce nel deque golems dei golem con vita massima e con caricatore vuoto
+     * @param golemPerGiocatore numero dei golem disponibili per giocatore a inizio partita
+     */
+    public void CreaGolems (int golemPerGiocatore){
+        for (int i = 0; i<golemPerGiocatore; i++){
             TamaGolem t = new TamaGolem(Main.getVitaGolem());
             this.golems.add(t);
         }
     }
 
+    /**
+     * Rimuove il primo golem dell'ArrayDeque del giocatore
+     */
     public void rimuoviGolem(){
         this.getGolems().removeFirst();
     }
-    
+
+    /**
+     * Mostrate all'utente quali pietre sono ancora disponibili, l'utente sceglie pietre fino a quando il caricatore è
+     * pieno. Le pietre scelte vengono rimosse da pietreDisponibili.
+     * @param pietreDisponibili La LinkedList in cui sono presenti le pietre tra cui il giocatore può scegliere
+     */
     public void scegliPietre(LinkedList<Elemento> pietreDisponibili) {
-		int CapienzaCaricatore = TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
+        int CapienzaCaricatore = TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
         while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
             Interazione.stampaPietreDisponibili(pietreDisponibili);
             int n = InputDati.leggiIntero((String.format(Interazione.RICHIESTA_INDICE, this.getNome())), 0, pietreDisponibili.size());
@@ -85,6 +96,12 @@ public class Giocatore {
         }
     }
 
+    /**
+     * Se il Giocatore ha ancora golem a disposizione, dovrà scegliere le pietre del prossimo golem. Le pietre scelte
+     * verranno confrontate con quelle del golem avversario
+     * @param pietreDisponibili La LinkedList in cui sono presenti le pietre tra cui il giocatore può scegliere
+     * @param giocatoreDaConfrontare Giocatore avversario
+     */
     public void scegliPietre(LinkedList<Elemento> pietreDisponibili, Giocatore giocatoreDaConfrontare) {
         if(this.golems.isEmpty()){
             System.out.println(String.format(Interazione.MSG_GOLEM_FINITI, this.nome));
@@ -95,8 +112,14 @@ public class Giocatore {
         Interazione.aCapo();
     }
 
+    /**
+     * Controlla le pietre dei due golem coinvolti nello scontro. Se i due golem hanno alcune pietre uguali viene chiesto
+     * ad un Giocatore di sceglierne altre. Per rendere il cambio delle pietre pseudo-casuale viene chiesto al giocatore
+     * di cambiarne una ogni due pietre uguali.
+     * @param giocatoreConfronto Giocatore avversario
+     * @param pietreDisponibili La LinkedList in cui sono presenti le pietre tra cui il giocatore può scegliere
+     */
     public void controlloCaricatore(Giocatore giocatoreConfronto, LinkedList<Elemento> pietreDisponibili) {
-
         int spazioCaricatore = TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
         int j=0;
         for(int i=0; i<spazioCaricatore;i++) {

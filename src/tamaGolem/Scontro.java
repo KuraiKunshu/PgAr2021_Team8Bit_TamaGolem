@@ -3,8 +3,6 @@ package tamaGolem;
 import java.util.LinkedList;
 
 public class Scontro {
-	
-	
     private LinkedList<Elemento> pietreDisponibili;
     private Giocatore g1;
     private Giocatore g2;
@@ -15,34 +13,66 @@ public class Scontro {
         this.mondo = new Grafo();
     }
 
+    /**
+     * ritorna il giocatore 1
+     * @return
+     */
     public Giocatore getG1() {
         return g1;
     }
 
+    /**
+     * imposta le pietre disponibili dato un Giocatore già inizializzato
+     * @param g1 Giocatore pre-inizializzato
+     */
     public void setG1(Giocatore g1) {
         this.g1 = g1;
     }
 
+    /**
+     * ritorna il giocatore 2
+     * @return
+     */
     public Giocatore getG2() {
         return g2;
     }
 
+    /**
+     * imposta le pietre disponibili dato un Giocatore già inizializzato
+     * @param g2 Giocatore pre-inizializzato
+     */
     public void setG2(Giocatore g2) {
         this.g2 = g2;
     }
 
+    /**
+     * ritorna il grafo dello scontro, contenente l'equilibrio
+     * @return
+     */
     public Grafo getMondo() {
         return mondo;
     }
 
+    /**
+     * imposta le pietre disponibili dato un grafo già inizializzato
+     * @param mondo grafo pre-inizializzato
+     */
     public void setMondo(Grafo mondo) {
         this.mondo = mondo;
     }
 
+    /**
+     * ritorna la lista delle pietre disponibili
+     * @return
+     */
     public LinkedList<Elemento> getPietreDisponibili() {
         return pietreDisponibili;
     }
 
+    /**
+     * imposta le pietre disponibili dato un array già inizializzato
+     * @param pietreDisponibili array pre-inizializzato
+     */
     public void setPietreDisponibili(LinkedList<Elemento> pietreDisponibili) {
         this.pietreDisponibili = pietreDisponibili;
     }
@@ -60,7 +90,11 @@ public class Scontro {
         return (int)Math.ceil((2.0 * g * p) / n) * n;
     }
 
-    public void riempiPietreDisponibili(int n){
+    /**
+     * dato il numero degli elementi, popola la linkedList in base alle formule prestabilite
+     */
+    public void riempiPietreDisponibili(){
+        int n= Main.getNumeroElementi();
         int pietrePerCaricatore = TamaGolem.getNumeroCaricatore(n);
         int pietreTotali = getNumeroTotalePietreDisponibili(n, Giocatore.getNumeroGolem(n, pietrePerCaricatore), pietrePerCaricatore);
     	for(int i=0; i<n;i++) {
@@ -70,15 +104,23 @@ public class Scontro {
     		}
     	}
     }
-    
-    public void evocazioneIniziale(int n) {
-    	mondo.generaEquilibrio(n);
+
+    /**
+     * chiama il metodo per generare l'equilibrio e fa scegliere ai giocatori che pietre mettere nei golem
+     */
+    public void evocazioneIniziale() {
+    	mondo.generaEquilibrio(Main.getNumeroElementi());
     	g1.scegliPietre(pietreDisponibili);
         System.out.println("\nAdesso tocca a " + g2.getNome());
     	g2.scegliPietre(pietreDisponibili,g1);
-        //controlloCaricatore(n, g1, g2);
     }
 
+    /**
+     * dati gli ultimi 2 elementi aggiunti al caricatore ne calcola i danni e se sono negativi, vuol dire che l'elemento scelto dal
+     * giocatore 2 è più forte di quello del giocatore 1, quindi infligge danni al primo golem del giocatore 1.
+     * se i danni sono positivi succede esattamente l'opposto.
+     * nel caso un golem muore non stampa i danni che un elemento infligge ad un altro
+     */
     public void attacco(){
         Elemento pietraGolem1 = g1.getGolems().getFirst().ruotaCaricatore();
         Elemento pietraGolem2 = g2.getGolems().getFirst().ruotaCaricatore();
@@ -100,6 +142,10 @@ public class Scontro {
         Interazione.aCapo();
     }
 
+    /**
+     * ritorna il vincitore della partita, se non dovesse trovarne una, ritorna una stringa vuota
+     * @return
+     */
     public String vincitore() {
     	if(g1.getGolems().isEmpty()) {
     		return g2.getNome();

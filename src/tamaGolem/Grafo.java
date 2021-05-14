@@ -8,11 +8,6 @@ public class Grafo {
     private static final String MSG_INTERAZIONE_PIETRE = "La pietra di %s ha il sopravvento su quella %s";
 	private static final String ANNULLAMENTO = "Le 2 pietre %s si annullano a vicenda";
 	private Map<Arco,Integer> mappaDirezioni;
-    //numero di elementi che possono interagire insieme
-    /**
-     * numero di elementi che possono interagire insieme
-     */
-    private final int NUMERO_COMBINAZIONE=2;
 
     /**
      * costruttore della classe Grafo
@@ -22,6 +17,9 @@ public class Grafo {
         
     }
 
+    /**
+     * stampa tutti gli archi e i suoi relativi danni
+     */
     public void StampaEquilibrio() {
         for(Map.Entry<Arco,Integer> entry: mappaDirezioni.entrySet()) {
         	System.out.println( entry.getKey().toString() + "-->" + entry.getValue());

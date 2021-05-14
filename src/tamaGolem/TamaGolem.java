@@ -12,10 +12,18 @@ public class TamaGolem {
         this.caricatore = new ArrayDeque<Elemento>();
     }
 
+    /**
+     * ritorna il caricatore del tamagolem
+     * @return
+     */
     public Deque<Elemento> getCaricatore() {
 		return caricatore;
 	}
 
+    /**
+     * imposta un caricatore pre-inizializzato
+     * @param caricatore Deque di elementi pre-inizializzata
+     */
 	public void setCaricatore(Deque<Elemento> caricatore) {
 		this.caricatore = caricatore;
 	}
@@ -46,7 +54,11 @@ public class TamaGolem {
     public static int getNumeroCaricatore(int n){
         return (int)Math.ceil((n+1.0)/3)+1;
     }
-    
+
+    /**
+     * dato un elemento aggiunge nel caricatore quest'ultimo in prima posizione
+     * @param pietra
+     */
     public void setCaricatore(Elemento pietra) {
     	this.caricatore.addFirst(pietra);
     }
