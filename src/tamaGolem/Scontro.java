@@ -78,7 +78,7 @@ public class Scontro {
     	g1.scegliPietre(pietreDisponibili);
         System.out.println("\nAdesso tocca a " + g2.getNome());
     	g2.scegliPietre(pietreDisponibili);
-        controlloCaricatore(n);
+        controlloCaricatore(n, g1, g2);
     }
 
     public void attacco(){
@@ -101,13 +101,13 @@ public class Scontro {
         }
     }
 
-    public void controlloCaricatore(int n) {
+    public void controlloCaricatore(int n, Giocatore giocatoreConfronto,Giocatore giocatoreCompromesso) {
     	
-    	int spazioCaricatore = g1.getGolems().getFirst().getNumeroCaricatore(n); 
+    	int spazioCaricatore = TamaGolem.getNumeroCaricatore(n); 
     	int j=0;
     	for(int i=0; i<spazioCaricatore;i++) {
-    		Elemento pietra1 = g1.getGolems().getFirst().getCaricatore().getLast();
-        	Elemento pietra2 = g2.getGolems().getFirst().getCaricatore().getLast();
+    		Elemento pietra1 = giocatoreConfronto.getGolems().getFirst().getCaricatore().getLast();
+        	Elemento pietra2 = giocatoreCompromesso.getGolems().getFirst().getCaricatore().getLast();
         	Elemento newPietra2 = null;
         	if(pietra1.equals(pietra2)) {
         		j++;
@@ -115,25 +115,21 @@ public class Scontro {
         		   System.out.println(String.format(Interazione.MSG_CAMBIA_PIETRA, pietra2.getNome(), (i+1)));
         		   do{ 
         			   Interazione.stampaPietreDisponibili(pietreDisponibili);
-            	       int indice = InputDati.leggiIntero(String.format(Interazione.RICHIESTA_INDICE, g2.getNome()), 0, pietreDisponibili.size());
+            	       int indice = InputDati.leggiIntero(String.format(Interazione.RICHIESTA_INDICE, giocatoreCompromesso.getNome()), 0, pietreDisponibili.size());
                        newPietra2 = new Elemento(indice);
                        if (pietreDisponibili.contains(newPietra2)){
-                         g2.getGolems().getFirst().getCaricatore().addLast(newPietra2);
+                         giocatoreCompromesso.getGolems().getFirst().getCaricatore().addLast(newPietra2);
                          pietreDisponibili.remove(newPietra2);
                          pietreDisponibili.add(pietra2);
-                         g2.getGolems().getFirst().getCaricatore().removeLastOccurrence(pietra2);
+                         giocatoreCompromesso.getGolems().getFirst().getCaricatore().removeLastOccurrence(pietra2);
                        }
     			       else System.out.println(Interazione.MSG_PIETRA_ASSENTE);	
                    } while(newPietra2.equals(pietra2));
         		}
         	}
-        	g1.getGolems().getFirst().ruotaCaricatore();
-        	g2.getGolems().getFirst().ruotaCaricatore();
+        	giocatoreConfronto.getGolems().getFirst().ruotaCaricatore();
+        	giocatoreCompromesso.getGolems().getFirst().ruotaCaricatore();
     	}
-//    	if(j==spazioCaricatore) {
-//    		return false;
-//    	}
-//    	return true;
     }
 
     public String vincitore() {
