@@ -76,7 +76,11 @@ public class Giocatore {
 		int CapienzaCaricatore;
 		CapienzaCaricatore= TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
 		if(this.golems.isEmpty()){
+<<<<<<< HEAD
             System.out.println(String.format(Interazione.MSG_GOLEM_FINITI, this.nome));
+=======
+            System.out.println(this.nome + " ha esaurito i suoi TamaGolem.");
+>>>>>>> c7c65b80651e959286986480ed1073eb8a1804d0
         }else
 		while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
 			Interazione.stampaPietreDisponibili(pietreDisponibili);
@@ -88,6 +92,4 @@ public class Giocatore {
 			else System.out.println(Interazione.MSG_PIETRA_ASSENTE);
 		}
     }
-    
-   
 }

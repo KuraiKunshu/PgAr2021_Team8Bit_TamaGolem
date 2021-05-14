@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class Interazione {
 	
 	private static final String NUOVA_PARTITA="Vuoi iniziare una nuova partita di TamaGolem?\n";
-	private static final String SCEGLI_DIFFICOLTA = "Scegli la difficolt√†:";
+	private static final String SCEGLI_DIFFICOLTA = "Scegli la difficolt‡:";
 	private static final int ELEMENTI_FACILE = 5;
 	private static final int ELEMENTI_MEDIO = 7;
 	private static final int ELEMENTI_DIFFICILE = 10;
@@ -20,6 +20,7 @@ public class Interazione {
 	private static final String FACILE = DIFFICOLTA0 + ". Facile (" + ELEMENTI_FACILE + " elementi)";
 	private static final String MEDIO = DIFFICOLTA1 + ". Medio (" + ELEMENTI_MEDIO + " elementi)";
 	private static final String DIFFICILE = DIFFICOLTA2 + ". Difficile (" + ELEMENTI_DIFFICILE + " elementi)";
+<<<<<<< HEAD
 	
 	private static final String RICHIESTA_NOME2 = "Giocatore 2. Inserisci il tuo nome:";
 	private static final String RICHIESTA_NOME1 = "Giocatore 1. Inserisci il tuo nome:";
@@ -34,6 +35,11 @@ public class Interazione {
     
 	public static final String MSG_WINNER = "Il vincitore di questo scontro Ë :";
 	public static final String MSG_END = "Programma TamaGolem terminato. autodistruzione in corso...";
+=======
+	public static final String MSG_GOLEM_FINITI = "%s ha esaurito i suoi TamaGolem.";
+    public static final String RICHIESTA_INDICE = "%s. Inserisci l'indice dell'elemento che desideri:";
+    public static final String MSG_PIETRA_ASSENTE = "La pietra scelta non Ë disponibile.";
+>>>>>>> c7c65b80651e959286986480ed1073eb8a1804d0
 
 
 	public static boolean nuovaPartita(){
@@ -59,8 +65,6 @@ public class Interazione {
 			Main.setVitaGolem(VITA_GOLEM_DIFFICILE);
 		}
 	}
-
-
 
 	public static void inserimentoNomi(Scontro s){
 		int n = Main.getNumeroElementi();
