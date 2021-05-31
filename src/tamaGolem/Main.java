@@ -6,7 +6,7 @@ public class Main {
 
     /**
      * ritorna il numero degli elementi
-     * @return
+     * @return numero elementi
      */
     public static int getNumeroElementi() {
         return NumeroElementi;
@@ -22,7 +22,7 @@ public class Main {
 
     /**
      * prende la vita del golem
-     * @return
+     * @return vita golem
      */
     public static int getVitaGolem() {
         return VitaGolem;
@@ -49,38 +49,37 @@ public class Main {
 
     public static void main(String[] args) {
         while(Interazione.nuovaPartita()){
+            Interazione.aCapo();
             Interazione.sceltaDifficolta();
+            Interazione.aCapo();
             Scontro s = new Scontro();
             Interazione.inserimentoNomi(s);
+            Interazione.aCapo();
             s.riempiPietreDisponibili();
             s.evocazioneIniziale();
             while (!(s.getG1().getGolems().isEmpty() || s.getG2().getGolems().isEmpty())){
                 s.attacco();
                 if(!(s.getG1().getGolems().getFirst().isAlive())){
-
                     System.out.println(String.format(Interazione.MSG_DEAD, s.getG1().getNome()));
-
-                   
+                    Interazione.aCapo();
                     s.getG1().rimuoviGolem();
                     s.getG1().scegliPietre(s.getPietreDisponibili(), s.getG2());
                 }
                 if(!(s.getG2().getGolems().getFirst().isAlive())){
-
                     System.out.println(String.format(Interazione.MSG_DEAD, s.getG2().getNome()));
-
-                    
+                    Interazione.aCapo();
                     s.getG2().rimuoviGolem();
                     s.getG2().scegliPietre(s.getPietreDisponibili(),s.getG1());
                 }
                 Main.pausa();
             }
             System.out.println(Interazione.MSG_WINNER+ s.vincitore());
-            Main.pausa();
-            System.out.println("questo è l'equilibrio del sistema:");
             Interazione.aCapo();
+            Main.pausa();
+            System.out.println(Interazione.STAMPA_EQUILIBRIO);
             s.getMondo().StampaEquilibrio();
+            Interazione.aCapo();
         }
-
         System.out.println(Interazione.MSG_END);
     }
 }

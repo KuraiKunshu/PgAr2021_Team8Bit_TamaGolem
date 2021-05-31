@@ -34,10 +34,10 @@ public class Grafo {
      * Se un valore della matrice è maggiore di 0, allora il suo valore simmetrico rispetto alla diagonale è 0 e viceversa.
      * In questo modo ogni valore diverso da 0 rappresenta la potenza con cui l'Elemento con indice pari a quello della riga
      * danneggia quello con indice pari a qullo della colonna.
-     * @param n numero di elementi
      */
-    public void generaEquilibrio(int n){
+    public void generaEquilibrio(){
         Random rand = new Random();
+        int n = Main.getNumeroElementi();
         int[][] m = new int[n][n];
         int vitaMax = Main.getVitaGolem();
         m = creaMatriceValida(m, n);
@@ -118,8 +118,9 @@ public class Grafo {
             //Continua il ciclo finchè non trova una matrice equilibrata
             } while (!isMatriceEquilibrata(m, n));
 
+            //Scartato perchè risultavano troppi valori simili
             //Trova il valore minimo (diverso da 0) presente nella matrice e la sua posizione
-            int valoreMin = vitaMax;
+            /*int valoreMin = vitaMax;
             int rigaValoreMin = 0, colonnaValoreMin = 0;
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
@@ -129,7 +130,8 @@ public class Grafo {
                         colonnaValoreMin = j;
                     }
                 }
-            }
+            }*/
+
             //Trova il valore massimo presente nella matrice e la sua posizione
             int valoreMax = 0;
             for (int i = 0; i < n; i++) {
@@ -143,12 +145,40 @@ public class Grafo {
             if (valoreMax == vitaMax) {
                 valoreMaxUgualeAVitaMax = true;
             }
-            //Altrimenti aumenta il valoreMin della matrice di 1
+            //Altrimenti aumenta di 1 un valore a caso della matrice, diverso da 0
             else{
-                m[rigaValoreMin][colonnaValoreMin]++;
+                //Prende un numero casuale che indica una riga
+                int valoreCasualeRiga = rand.nextInt(n);
+                //Prende un secondo numero casuale che indica la colonna, va fino a n-1 perchè esclude la casella della diagonale
+                int valoreCasualeColonna = rand.nextInt(n-1) + 1;
+                int contatore = 0;
+                //Trova il valoreCasualeColonna corrispondente escludendo la casella che si trova nella diagonale
+                for (int i = 0; i < n; i++){
+                    //Se il valore di i non è quello dell'indice di colonna della riga presa in considerazione aumenta il contatore di 1
+                    if (i != valoreCasualeRiga) contatore++;
+                    //Quando arriva al valoreCasuale colonna corrispondente, lo riassegna
+                    if (contatore == valoreCasualeColonna) valoreCasualeColonna = i;
+                }
+                //Se la casella trovata casualmente contine il valore 0 cambio gli indici, prendendo la casella in posizione simmetrica
+                if (m[valoreCasualeRiga][valoreCasualeColonna] == 0){
+                    int temp = valoreCasualeRiga;
+                    valoreCasualeRiga = valoreCasualeColonna;
+                    valoreCasualeColonna = temp;
+                }
+                m[valoreCasualeRiga][valoreCasualeColonna]++;
             }
         //Esce dal ciclo quando trova una matrice con valoreMax = vitaMax del TamaGolem
         }while (valoreMaxUgualeAVitaMax == false);
+
+        //Stampa matrice elementi quando viene generata (per controllo valori)
+        /*for (int i=0; i<n; i++){
+            for (int j=0; j<n; j++){
+                System.out.printf("%3d ", m[i][j]);
+            }
+            System.out.println("");
+        }
+        Interazione.aCapo();*/
+
         //Imposta la mappaDirezioni con i valori nella matrice (zeri esclusi) prendendo gli elementi con l'id
         //corrispondente agli indici di riga e colonna
         for (int i=0; i<n; i++) {

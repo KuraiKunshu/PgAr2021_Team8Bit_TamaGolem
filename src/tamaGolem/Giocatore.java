@@ -18,7 +18,7 @@ public class Giocatore {
 
     /**
      * ritorna il nome del giocatore
-     * @return
+     * @return nome giocatore
      */
     public String getNome() {
         return nome;
@@ -26,7 +26,7 @@ public class Giocatore {
 
     /**
      * imposta il nome del giocatore
-     * @param nome
+     * @param nome nome giocatore
      */
     public void setNome(String nome) {
         this.nome = nome;
@@ -34,7 +34,7 @@ public class Giocatore {
 
     /**
      * ritorna la lista di golem
-     * @return
+     * @return lista golem
      */
     public Deque<TamaGolem> getGolems() {
         return golems;
@@ -42,7 +42,7 @@ public class Giocatore {
 
     /**
      * imposta l'intera lista dei golem
-     * @param golems
+     * @param golems lista golem
      */
     public void setGolems(Deque<TamaGolem> golems) {
         this.golems = golems;
@@ -84,15 +84,17 @@ public class Giocatore {
      * @param pietreDisponibili La LinkedList in cui sono presenti le pietre tra cui il giocatore può scegliere
      */
     public void scegliPietre(LinkedList<Elemento> pietreDisponibili) {
-        int CapienzaCaricatore = TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
-        while(this.golems.getFirst().getCaricatore().size()<CapienzaCaricatore) {
+        int numeroElementi = Main.getNumeroElementi();
+        int capienzaCaricatore = TamaGolem.getNumeroCaricatore(numeroElementi);
+        while(this.golems.getFirst().getCaricatore().size() < capienzaCaricatore) {
             Interazione.stampaPietreDisponibili(pietreDisponibili);
-            int n = InputDati.leggiIntero((String.format(Interazione.RICHIESTA_INDICE, this.getNome())), 0, pietreDisponibili.size());
+            int n = InputDati.leggiIntero((String.format(Interazione.RICHIESTA_INDICE, this.getNome())), 0, numeroElementi);
             if (pietreDisponibili.contains(new Elemento(n))){
                 this.golems.getFirst().setCaricatore(new Elemento(n));
                 pietreDisponibili.remove(new Elemento(n));
             }
             else System.out.println(Interazione.MSG_PIETRA_ASSENTE);
+            Interazione.aCapo();
         }
     }
 
@@ -105,11 +107,12 @@ public class Giocatore {
     public void scegliPietre(LinkedList<Elemento> pietreDisponibili, Giocatore giocatoreDaConfrontare) {
         if(this.golems.isEmpty()){
             System.out.println(String.format(Interazione.MSG_GOLEM_FINITI, this.nome));
+            Interazione.aCapo();
         }else{
             scegliPietre(pietreDisponibili);
             this.controlloCaricatore(giocatoreDaConfrontare, pietreDisponibili);
+            System.out.println(Interazione.MSG_INIZIO_BATTAGLIA);
         }
-        Interazione.aCapo();
     }
 
     /**
@@ -120,25 +123,28 @@ public class Giocatore {
      * @param pietreDisponibili La LinkedList in cui sono presenti le pietre tra cui il giocatore può scegliere
      */
     public void controlloCaricatore(Giocatore giocatoreConfronto, LinkedList<Elemento> pietreDisponibili) {
-        int spazioCaricatore = TamaGolem.getNumeroCaricatore(Main.getNumeroElementi());
+        int numeroElementi = Main.getNumeroElementi();
+        int capienzaCaricatore = TamaGolem.getNumeroCaricatore(numeroElementi);
         int j=0;
-        for(int i=0; i<spazioCaricatore;i++) {
+        for(int i=0; i<capienzaCaricatore; i++) {
             Elemento pietra1 = giocatoreConfronto.getGolems().getFirst().getCaricatore().getLast();
             Elemento pietra2 = this.getGolems().getFirst().getCaricatore().getLast();
-            Elemento newPietra2 = null;
+            Elemento newPietra2;
             if(pietra1.equals(pietra2)) {
                 j++;
-                if(j%2==0) {
+                if(j%2 == 0) {
                     System.out.println(String.format(Interazione.MSG_CAMBIA_PIETRA, pietra2.getNome(), (i+1)));
                     do{
                         Interazione.stampaPietreDisponibili(pietreDisponibili);
-                        int indice = InputDati.leggiIntero(String.format(Interazione.RICHIESTA_INDICE, this.getNome()), 0, pietreDisponibili.size());
+                        int indice = InputDati.leggiIntero(String.format(Interazione.RICHIESTA_INDICE, this.getNome()), 0, numeroElementi);
+                        Interazione.aCapo();
                         newPietra2 = new Elemento(indice);
                         if (pietreDisponibili.contains(newPietra2)){
                             this.getGolems().getFirst().getCaricatore().addLast(newPietra2);
                             pietreDisponibili.remove(newPietra2);
                             pietreDisponibili.add(pietra2);
                             this.getGolems().getFirst().getCaricatore().removeLastOccurrence(pietra2);
+                            if (newPietra2.equals(pietra2)) System.out.println(Interazione.ERRORE_PIETRA);
                         }
                         else System.out.println(Interazione.MSG_PIETRA_ASSENTE);
                     } while(newPietra2.equals(pietra2));

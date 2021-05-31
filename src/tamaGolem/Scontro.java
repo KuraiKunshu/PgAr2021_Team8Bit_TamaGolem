@@ -94,11 +94,11 @@ public class Scontro {
      * dato il numero degli elementi, popola la linkedList in base alle formule prestabilite
      */
     public void riempiPietreDisponibili(){
-        int n= Main.getNumeroElementi();
-        int pietrePerCaricatore = TamaGolem.getNumeroCaricatore(n);
-        int pietreTotali = getNumeroTotalePietreDisponibili(n, Giocatore.getNumeroGolem(n, pietrePerCaricatore), pietrePerCaricatore);
-    	for(int i=0; i<n;i++) {
-    		for(int j=0; j<pietreTotali/n; j++) {
+        int numeroElementi = Main.getNumeroElementi();
+        int capienzaCaricatore = TamaGolem.getNumeroCaricatore(numeroElementi);
+        int pietreTotali = Scontro.getNumeroTotalePietreDisponibili(numeroElementi, Giocatore.getNumeroGolem(numeroElementi, capienzaCaricatore), capienzaCaricatore);
+    	for(int i=0; i < numeroElementi; i++) {
+    		for(int j=0; j < pietreTotali/numeroElementi; j++) {
     			Elemento elemento = new Elemento(i);
     			pietreDisponibili.add(elemento);
     		}
@@ -109,9 +109,9 @@ public class Scontro {
      * chiama il metodo per generare l'equilibrio e fa scegliere ai giocatori che pietre mettere nei golem
      */
     public void evocazioneIniziale() {
-    	mondo.generaEquilibrio(Main.getNumeroElementi());
+    	mondo.generaEquilibrio();
     	g1.scegliPietre(pietreDisponibili);
-        System.out.println("\nAdesso tocca a " + g2.getNome());
+        System.out.println("ADESSO TOCCA A " + g2.getNome() + ".");
     	g2.scegliPietre(pietreDisponibili,g1);
     }
 
